@@ -18,7 +18,7 @@ babel==2.9.0
     # via jupyterlab-server
 backcall==0.2.0
     # via ipython
-bleach==3.2.2
+bleach==3.3.0
     # via nbconvert
 certifi==2020.12.5
     # via requests
@@ -66,7 +66,7 @@ ipywidgets==7.6.3
     #   ipympl
 jedi==0.18.0
     # via ipython
-jinja2==2.11.2
+jinja2==2.11.3
     # via
     #   jupyter-server
     #   jupyterlab
@@ -170,7 +170,7 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pillow==8.1.0
+pillow==8.1.2
     # via
     #   imageio
     #   matplotlib
@@ -258,7 +258,7 @@ traitlets==5.0.5
     #   nbconvert
     #   nbformat
     #   notebook
-urllib3==1.26.2
+urllib3==1.26.4
     # via requests
 voila==0.2.6
     # via -r requirements.in
