@@ -31,7 +31,7 @@ class BlackbodyFigure():
         # fig.suptitle('Spectral Radiant Sterance')
 
         ax.set_xlabel('Wavelength')
-        ax.set_ylabel(R'Spectral Radiant Sterance (W cm$^{-2}$ $\mu$m$^{-1}$ sr$^{-1}$)')
+        ax.set_ylabel(R'Spectral Radiant Sterance (W cm$^{-2}$ µm$^{-1}$ sr$^{-1}$)')
         ax.grid(True)
 
         self.fig = fig
@@ -113,13 +113,13 @@ blackbody_table = BlackbodyTable(parameters)
 
 temperature = widgets.FloatSlider(
     description='Temperature (K)',
-    value=300, min=0, max=3000, step=1,
+    value=300,
+    min=0,
+    max=3000,
+    step=1,
+    readout=True,
     layout={'width': '50%'},
     style = {'description_width': 'initial'},
-    )
-temperature1 = widgets.FloatText(
-    value=300,
-    layout={'width': '25%'},
     )
 spectral_band = widgets.FloatRangeSlider(
     description='Spectral Band (µm)',
@@ -153,14 +153,12 @@ def update_spectral_band(change):
 temperature.observe(update_temperature, names='value')
 spectral_band.observe(update_spectral_band, names='value')
 
-widgets.link((temperature, 'value'), (temperature1, 'value'))
-
 widgets.AppLayout(
     header=None,
     left_sidebar=None,
     center=widgets.VBox([
         widgets.HTML(value='<h1 style="text-align: center">Blackbody</h1>'),
-        widgets.HBox([temperature, temperature1]),
+        temperature,
         spectral_band,
         blackbody_table.widget,
         blackbody_figure.canvas,
