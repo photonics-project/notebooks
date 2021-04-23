@@ -1,3 +1,4 @@
 set -ex
 
 jupytext --to notebook blackbody.py
+jupytext --to notebook controls-gallery.py
