@@ -5,6 +5,7 @@ jupyterlab==3.0.5
 jupytext==1.9.1
 pip-tools==5.5.0
 pipdeptree==2.0.0
+pre-commit==2.12.1
 voila==0.2.6
 watchdog==1.0.2
 wheel==0.36.2

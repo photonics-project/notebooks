@@ -4,14 +4,39 @@
 #
 #    pip-compile dev-requirements.in
 #
+appdirs==1.4.4
+    # via virtualenv
 argh==0.26.2
     # via watchdog
+cfgv==3.2.0
+    # via pre-commit
+distlib==0.3.1
+    # via virtualenv
+filelock==3.0.12
+    # via virtualenv
+identify==2.2.4
+    # via pre-commit
+nodeenv==1.6.0
+    # via pre-commit
 pipdeptree==2.0.0
+    # via -r dev-requirements.in
+pre-commit==2.12.1
     # via -r dev-requirements.in
 pyyaml==5.4.1
     # via
     #   -c requirements.txt
+    #   pre-commit
     #   watchdog
+six==1.15.0
+    # via
+    #   -c requirements.txt
+    #   virtualenv
+toml==0.10.2
+    # via
+    #   -c requirements.txt
+    #   pre-commit
+virtualenv==20.4.4
+    # via pre-commit
 watchdog[watchmedo]==1.0.2
     # via -r dev-requirements.in
 
