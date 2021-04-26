@@ -1,6 +1,7 @@
 colour-science
 ipympl
 ipywidgets
+jinja2
 jupyterlab
 jupytext
 matplotlib

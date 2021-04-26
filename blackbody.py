@@ -2,103 +2,105 @@
 # %matplotlib widget
 import colour
 import ipywidgets as widgets
+import jinja2
 import matplotlib.pyplot as pyplot
 import numpy as np
 import scipy.integrate
 
+from controls import SpectralBandsControlPanel
+
 
 parameters = {
     'temperature': 300,
-    'lambda_min': 3,
-    'lambda_max': 5,
+    'spectral_bands': [(3.0, 5.0), (8.0, 12.0)],
 }
 
 
-class BlackbodyFigure():
-    def __init__(self, parameters):
-        self.parameters = parameters
+output = widgets.Output()
 
-        temperature = parameters['temperature']
-        lambda_min = parameters['lambda_min']
-        lambda_max = parameters['lambda_max']
-        spectral_band = [lambda_min, lambda_max]
-
+class Figure():
+    def __init__(self):
         (fig, ax) = pyplot.subplots()
 
         fig.canvas.header_visible = False
         fig.canvas.toolbar_visible = True
         fig.canvas.toolbar_position = 'right'
-        # fig.suptitle('Spectral Radiant Sterance')
-
-        ax.set_xlabel('Wavelength')
-        ax.set_ylabel(R'Spectral Radiant Sterance (W cm$^{-2}$ µm$^{-1}$ sr$^{-1}$)')
-        ax.grid(True)
 
         self.fig = fig
         self.ax = ax
 
-        self.plot = ax.plot(np.linspace(1, 15, 101), blackbody_spectral_radiant_sterance(temperature, np.linspace(1, 15, 101)))
-        # self.lambda_min_line = self.ax.axvline(parameters['lambda_min'], color='black', linestyle='dashed')
-        # self.lambda_max_line = self.ax.axvline(parameters['lambda_max'], color='black', linestyle='dashed')
-        self.spectral_band_area = ax.fill_between(np.linspace(*spectral_band), blackbody_spectral_radiant_sterance(temperature, np.linspace(*spectral_band)), color='C0', alpha=0.5)
+        self.update()
+
         self.fig.tight_layout()
 
     @property
     def canvas(self):
         return self.fig.canvas
 
-    def update_plot(self):
-        temperature = parameters['temperature']
-        lambda_min = parameters['lambda_min']
-        lambda_max = parameters['lambda_max']
-        spectral_band = [lambda_min, lambda_max]
+    def update(self):
+        self.plot()
 
-        self.plot[0].set_data(np.linspace(1, 15, 101), blackbody_spectral_radiant_sterance(temperature, np.linspace(1, 15, 101)))
+        self.ax.set_xlabel('Wavelength (µm)')
+        self.ax.set_ylabel(R'Spectral Radiant Sterance (W cm$^{-2}$ µm$^{-1}$ sr$^{-1}$)')
 
-        self.ax.relim()
-        self.ax.autoscale_view()
+        self.ax.grid(True)
 
-        # self.lambda_min_line.remove()
-        # self.lambda_max_line.remove()
-        # self.lambda_min_line = self.ax.axvline(lambda_min, color='black', linestyle='dashed')
-        # self.lambda_max_line = self.ax.axvline(lambda_max, color='black', linestyle='dashed')
-        self.spectral_band_area.remove()
-        self.spectral_band_area = self.ax.fill_between(np.linspace(*spectral_band), blackbody_spectral_radiant_sterance(temperature, np.linspace(*spectral_band)), color='C0', alpha=0.5)
-
-        self.fig.tight_layout()
         self.fig.canvas.draw()
 
+    def plot(self):
+        temperature = parameters['temperature']
 
-class BlackbodyTable():
-    def __init__(self, parameters):
-        self.parameters = parameters
+        self.ax.clear()
+        xlambda = np.linspace(0.2, 30, 150)
+        self.ax.plot(xlambda, blackbody_spectral_radiant_sterance(temperature, xlambda), color='black')
+        for (idx, (lambda_min, lambda_max)) in enumerate(parameters['spectral_bands']):
+            xlambda = np.linspace(lambda_min, lambda_max)
+            self.ax.fill_between(
+                xlambda,
+                blackbody_spectral_radiant_sterance(temperature, xlambda),
+                color='none',
+                hatch='///',
+                edgecolor=f'C{idx}',
+                alpha=0.5
+                )
 
+
+class Table():
+    def __init__(self):
         self.widget = widgets.HTML(value='')
 
-        self.update_table()
+        self.update()
 
-    def update_table(self):
+    def update(self):
         temperature = parameters['temperature']
-        lambda_min = parameters['lambda_min']
-        lambda_max = parameters['lambda_max']
-        spectral_band = [lambda_min, lambda_max]
+        spectral_bands = parameters['spectral_bands']
 
         Le = lambda x: blackbody_spectral_radiant_sterance(temperature, x)
 
-        self.widget.value = f'''
+        values = [
+            scipy.integrate.quad(lambda x: Le(x), lambda_min, lambda_max)[0]
+            for (lambda_min, lambda_max) in spectral_bands
+            ]
+
+        table_template = jinja2.Environment().from_string('''
             <table style="width: 100%; border: solid; text-align: left">
               <thead>
                 <th>Parameter</th>
                 <th>Value</th>
                 <th>Units</th>
               </thead>
+              {% for value in values %}
               <tr>
-                <td>In-band radiant sterance</td>
-                <td>{scipy.integrate.quad(lambda x: Le(x), lambda_min, lambda_max)[0]:g}</td>
+                <td>In-band (Λ<sub>{{loop.index}}</sub>) radiant sterance</td>
+                <td>{{"%g" % value}}</td>
                 <td>W cm<sup>-2</sup> sr<sup>-1</sup></td>
               </tr>
+              {% endfor %}
             </table>
-            '''.strip()
+            '''
+            )
+
+        self.widget.value = table_template.render(values=values)
 
 
 def blackbody_spectral_radiant_sterance(temperature, wavelength):
@@ -107,8 +109,8 @@ def blackbody_spectral_radiant_sterance(temperature, wavelength):
 
 pyplot.ioff()
 
-blackbody_figure = BlackbodyFigure(parameters)
-blackbody_table = BlackbodyTable(parameters)
+figure = Figure()
+table = Table()
 
 
 temperature = widgets.FloatSlider(
@@ -121,37 +123,39 @@ temperature = widgets.FloatSlider(
     layout={'width': '50%'},
     style = {'description_width': 'initial'},
     )
-spectral_band = widgets.FloatRangeSlider(
-    description='Spectral Band (µm)',
-    value=[3, 5],
-    min=1,
-    max=15,
-    step=0.1,
-    readout=True,
-    readout_format='.1f',
-    layout={'width': '50%'},
-    style={'description_width': 'initial'},
-    )
-output = widgets.Output(layout={'border': '1px solid black'})
+
+spectral_bands_control_panel = SpectralBandsControlPanel(spectral_bands=parameters['spectral_bands'])
 
 
-@output.capture()
 def update_temperature(change):
-    blackbody_figure.parameters.update({'temperature': change.new})
-    blackbody_figure.update_plot()
-    blackbody_table.update_table()
+    parameters.update({'temperature': change.new})
+    figure.update()
+    table.update()
 
 
-@output.capture()
-def update_spectral_band(change):
-    blackbody_figure.parameters.update({'lambda_min': change.new[0]})
-    blackbody_figure.parameters.update({'lambda_max': change.new[1]})
-    blackbody_figure.update_plot()
-    blackbody_table.update_table()
+def update_wavelengths():
+    parameters['wavelengths'] = spectral_bands_control_panel.spectral_bands
+    figure.update()
+    table.update()
+
+
+def add_spectral_band():
+    parameters['wavelengths'] = spectral_bands_control_panel.spectral_bands
+    figure.update()
+    table.update()
+
+
+def remove_spectral_band():
+    parameters['wavelengths'] = spectral_bands_control_panel.spectral_bands
+    figure.update()
+    table.update()
 
 
 temperature.observe(update_temperature, names='value')
-spectral_band.observe(update_spectral_band, names='value')
+spectral_bands_control_panel.on_change(update_wavelengths)
+spectral_bands_control_panel.on_add_spectral_band(add_spectral_band)
+spectral_bands_control_panel.on_remove_spectral_band(remove_spectral_band)
+
 
 widgets.AppLayout(
     header=None,
@@ -159,23 +163,12 @@ widgets.AppLayout(
     center=widgets.VBox([
         widgets.HTML(value='<h1 style="text-align: center">Blackbody</h1>'),
         temperature,
-        spectral_band,
-        blackbody_table.widget,
-        blackbody_figure.canvas,
+        spectral_bands_control_panel.widget_container,
+        table.widget,
+        figure.canvas,
+        output,
         ]),
     right_sidebar=None,
     footer=None,
     width='50%',
     )
-
-# widgets.AppLayout(
-#     center=widgets.VBox([
-#         widgets.HTML(value='<h1 style="text-align: center">Blackbody</h1>'),
-#         widgets.HBox([temperature, temperature1]),
-#         spectral_band,
-#         ], layout=widgets.Layout(border='solid')),
-#     center=blackbody_figure.canvas,
-#     footer=output,
-#     pane_widths=[2, 2, 0],
-#     layout=widgets.Layout(border='solid'),
-#     )

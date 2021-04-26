@@ -115,9 +115,9 @@ class SpectralBandsControlPanel():
         sliders = [
             widgets.HBox([
                 widgets.FloatRangeSlider(
-                    description=f'$\Lambda_{idx}$ (µm)',
+                    description=f'$\Lambda_{idx+1}$ (µm)',
                     value=xx,
-                    min=0.1,
+                    min=0.2,
                     max=30,
                     step=0.1,
                     readout=True,
