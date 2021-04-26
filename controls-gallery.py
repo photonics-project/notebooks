@@ -12,3 +12,14 @@ from controls import WavelengthsControlPanel
 
 control_panel = WavelengthsControlPanel()
 control_panel.widget_container
+
+
+# %% [markdown]
+# ## Spectral Bands Control Panel
+# Here is a control panel for defining a number of spectral bands.
+# %%
+from controls import SpectralBandsControlPanel
+
+
+control_panel = SpectralBandsControlPanel()
+control_panel.widget_container
