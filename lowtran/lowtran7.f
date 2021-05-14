@@ -13217,7 +13217,7 @@ C  NOTE - THIS ROUTINE USES A UNIFORM RANDOM NUMBER GENERATOR           CIR  900
 C  FUNCTION (RANF) WHICH RETURNS A NUMBER BETWEEN 0 AND 1.              CIR  910
 C  THIS FEATURE IS MACHINE DEPENDENT!!                                  CIR  920
 C                                                                       CIR  930
-   15 CALL RANSET(ISEED)                                                CIR  940
+   15 CALL SRAND(ISEED)                                                 CIR  940
       URN = RANFUN(IDUM)                                                CIR  950
       DO 20 I = 1, 10                                                   CIR  960
          IF (URN .GE. TSTAT(I) .AND. URN .LT. TSTAT(I+1)) CTHIK = I-1   CIR  970
@@ -13291,7 +13291,7 @@ C                                                                       CIR 1470
       RETURN                                                            CIR 1650
       END                                                               CIR 1660
       FUNCTION   RANFUN(IDUM)                                           RAN  100
-      RANFUN=RANF()                                                     RAN  110
+      RANFUN=RAND(0)                                                    RAN  110
       RETURN                                                            RAN  120
       END                                                               RAN  130
       FUNCTION   ABSLIM(TK,AWLWC)                                       ALM  100
