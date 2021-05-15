@@ -3,3 +3,6 @@ set -ex
 jupytext --to notebook blackbody.py
 jupytext --to notebook controls-gallery.py
 jupytext --to notebook mtf.py
+jupytext --to notebook lowtran7.py
+
+cd lowtran && make data
