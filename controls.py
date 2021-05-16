@@ -5,8 +5,10 @@ import ipywidgets as widgets
 
 
 class WavelengthsControlPanel():
-    def __init__(self, *, xlambda: List[float]=[3.0, 5.0]):
+    def __init__(self, *, xlambda: List[float]=[3.0, 5.0], lambda_min=0.2, lambda_max=30):
         self.xlambda = xlambda
+        self.lambda_min = lambda_min
+        self.lambda_max = lambda_max
 
         self._widget_container = widgets.VBox([])
         self.on_change_handler = type(None)
@@ -45,8 +47,8 @@ class WavelengthsControlPanel():
                 widgets.FloatSlider(
                     description=f'$\lambda_{idx}$ (µm)',
                     value=xx,
-                    min=0.1,
-                    max=30,
+                    min=self.lambda_min,
+                    max=self.lambda_max,
                     step=0.1,
                     readout=True,
                     layout={'width': '50%'},
@@ -76,8 +78,10 @@ class WavelengthsControlPanel():
 
 
 class SpectralBandsControlPanel():
-    def __init__(self, *, spectral_bands: List[Tuple[float, float]]=[(3.0, 5.0)]):
+    def __init__(self, *, spectral_bands: List[Tuple[float, float]]=[(3.0, 5.0)], lambda_min=0.2, lambda_max=30):
         self.spectral_bands = spectral_bands
+        self.lambda_min = lambda_min
+        self.lambda_max = lambda_max
 
         self._widget_container = widgets.VBox([])
         self.on_change_handler = type(None)
@@ -117,8 +121,8 @@ class SpectralBandsControlPanel():
                 widgets.FloatRangeSlider(
                     description=f'$\Lambda_{idx+1}$ (µm)',
                     value=xx,
-                    min=0.2,
-                    max=30,
+                    min=self.lambda_min,
+                    max=self.lambda_max,
                     step=0.1,
                     readout=True,
                     style = {'description_width': 'initial'},
