@@ -5,8 +5,9 @@ import ipywidgets as widgets
 
 
 class WavelengthsControlPanel():
-    def __init__(self, *, xlambda: List[float]=[3.0, 5.0], lambda_min=0.2, lambda_max=30):
+    def __init__(self, *, xlambda: List[float]=[3.0, 5.0], Nmax=10, lambda_min=0.2, lambda_max=30):
         self.xlambda = xlambda
+        self.Nmax = Nmax
         self.lambda_min = lambda_min
         self.lambda_max = lambda_max
 
@@ -32,7 +33,7 @@ class WavelengthsControlPanel():
         self.on_change_handler()
 
     def add_slider(self, ni):
-        button = widgets.Button(description='Add Wavelength', button_style='success', disabled=(ni>=10))
+        button = widgets.Button(description='Add Wavelength', button_style='success', disabled=(ni>=self.Nmax))
         button.on_click(lambda button: self.add_wavelength(5))
         return button
 
@@ -45,7 +46,7 @@ class WavelengthsControlPanel():
         sliders = [
             widgets.HBox([
                 widgets.FloatSlider(
-                    description=f'$\lambda_{idx}$ (µm)',
+                    description=f'$\lambda_{{{idx+1}}}$ (µm)',
                     value=xx,
                     min=self.lambda_min,
                     max=self.lambda_max,
@@ -78,8 +79,9 @@ class WavelengthsControlPanel():
 
 
 class SpectralBandsControlPanel():
-    def __init__(self, *, spectral_bands: List[Tuple[float, float]]=[(3.0, 5.0)], lambda_min=0.2, lambda_max=30):
+    def __init__(self, *, spectral_bands: List[Tuple[float, float]]=[(3.0, 5.0)], Nmax=10, lambda_min=0.2, lambda_max=30):
         self.spectral_bands = spectral_bands
+        self.Nmax = Nmax
         self.lambda_min = lambda_min
         self.lambda_max = lambda_max
 
@@ -106,7 +108,7 @@ class SpectralBandsControlPanel():
         print(self.spectral_bands)
 
     def add_slider(self, ni):
-        button = widgets.Button(description='Add Spectral Band', button_style='success', disabled=(ni>=10))
+        button = widgets.Button(description='Add Spectral Band', button_style='success', disabled=(ni>=self.Nmax))
         button.on_click(lambda button: self.add_spectral_band((3.0, 5.0)))
         return button
 
@@ -119,7 +121,7 @@ class SpectralBandsControlPanel():
         sliders = [
             widgets.HBox([
                 widgets.FloatRangeSlider(
-                    description=f'$\Lambda_{idx+1}$ (µm)',
+                    description=f'$\Lambda_{{{idx+1}}}$ (µm)',
                     value=xx,
                     min=self.lambda_min,
                     max=self.lambda_max,

@@ -21,5 +21,5 @@ control_panel.widget_container
 from controls import SpectralBandsControlPanel
 
 
-control_panel = SpectralBandsControlPanel(lambda_max=25)
+control_panel = SpectralBandsControlPanel(Nmax=3, lambda_max=25)
 control_panel.widget_container
