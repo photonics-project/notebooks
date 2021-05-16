@@ -3,9 +3,11 @@
 from pathlib import Path
 
 import ipywidgets as widgets
+import jinja2
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.integrate
 
 from controls import SpectralBandsControlPanel
 
@@ -18,8 +20,8 @@ parameters = {
 
 
 data = np.load(Path().resolve() / 'lowtran/lowtran7.npz')
-xlambda = data['xlambda']
-Tcoeff = data['Tcoeff']
+xlambda = data['xlambda'][::-1]
+Tcoeff = data['Tcoeff'][:,::-1]
 
 
 class Figure():
@@ -60,20 +62,61 @@ class Figure():
         self.ax.clear()
         self.ax.plot(xlambda, Tcoeff[data_idx])
 
-        # for (idx, (lambda_min, lambda_max)) in enumerate(parameters['spectral_bands']):
-        #     self.ax.fill_between(
-        #         xlambda[np.logical_and(xlambda > lambda_min, xlambda < lambda_max)],
-        #         Tcoeff[data_idx][np.logical_and(xlambda > lambda_min, xlambda < lambda_max)],
-        #         color='none',
-        #         hatch='///',
-        #         edgecolor=f'C{idx}',
-        #         alpha=0.5
-        #         )
+        for (idx, (lambda_min, lambda_max)) in enumerate(parameters['spectral_bands']):
+            self.ax.fill_between(
+                xlambda[np.logical_and(xlambda > lambda_min, xlambda < lambda_max)],
+                Tcoeff[data_idx][np.logical_and(xlambda > lambda_min, xlambda < lambda_max)],
+                color='none',
+                hatch='///',
+                edgecolor=f'C{idx}',
+                alpha=0.5
+                )
+
+
+class Table():
+    def __init__(self):
+        self.widget = widgets.HTML(value='')
+
+        self.update()
+
+    def update(self):
+        model_idx = parameters['model'] - 1
+        range_idx = parameters['range'] - 1
+        data_idx = np.ravel_multi_index((model_idx, range_idx), (6, 7))
+
+        spectral_bands = parameters['spectral_bands']
+
+        values = [
+            np.trapz(
+                Tcoeff[data_idx][np.logical_and(xlambda > lambda_min, xlambda < lambda_max)],
+                xlambda[np.logical_and(xlambda > lambda_min, xlambda < lambda_max)]
+                ) / (lambda_max-lambda_min)
+            for (lambda_min, lambda_max) in spectral_bands
+            ]
+
+        table_template = jinja2.Environment().from_string('''
+            <table style="width: 100%; border: solid; text-align: left">
+              <thead>
+                <th>Parameter</th>
+                <th>Value</th>
+              </thead>
+              {% for value in values %}
+              <tr>
+                <td>In-band (Λ<sub>{{loop.index}}</sub>) average transmission</td>
+                <td>{{"%g" % value}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+            '''
+            )
+
+        self.widget.value = table_template.render(values=values)
 
 
 plt.ioff()
 
 figure = Figure()
+table = Table()
 
 
 model = widgets.Dropdown(
@@ -103,32 +146,41 @@ range = widgets.Dropdown(
     description='Range (km):',
     )
 
-spectral_bands_control_panel = SpectralBandsControlPanel(spectral_bands=parameters['spectral_bands'])
+spectral_bands_control_panel = SpectralBandsControlPanel(
+    spectral_bands=parameters['spectral_bands'],
+    lambda_min=np.min(xlambda),
+    lambda_max=np.max(xlambda),
+    )
+
+
+def update():
+    figure.update()
+    table.update()
 
 
 def update_model(change):
     parameters.update({'model': change.new})
-    figure.update()
+    update()
 
 
 def update_range(change):
     parameters.update({'range': change.new})
-    figure.update()
+    update()
 
 
 def update_wavelengths():
     parameters['spectral_bands'] = spectral_bands_control_panel.spectral_bands
-    figure.update()
+    update()
 
 
 def add_spectral_band():
     parameters['spectral_bands'] = spectral_bands_control_panel.spectral_bands
-    figure.update()
+    update()
 
 
 def remove_spectral_band():
     parameters['spectral_bands'] = spectral_bands_control_panel.spectral_bands
-    figure.update()
+    update()
 
 
 model.observe(update_model, names='value')
@@ -145,7 +197,8 @@ widgets.AppLayout(
         widgets.HTML(value='<h1 style="text-align: center">LOWTRAN7</h1>'),
         model,
         range,
-        # spectral_bands_control_panel.widget_container,
+        spectral_bands_control_panel.widget_container,
+        table.widget,
         figure.canvas,
         ]),
     right_sidebar=None,
