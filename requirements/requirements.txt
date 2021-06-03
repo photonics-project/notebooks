@@ -259,7 +259,7 @@ traitlets==5.0.5
     #   nbconvert
     #   nbformat
     #   notebook
-urllib3==1.26.4
+urllib3==1.26.5
     # via requests
 voila==0.2.6
     # via -r requirements.in
