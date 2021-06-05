@@ -26,6 +26,9 @@ help:
 install-requirements:
 	$(MAKE) -C ./requirements/ install
 
+.PHONY: notebooks
+notebooks: $(NOTEBOOKS)
+
 .PHONY: start-dev
 start-dev: stop-dev $(NOTEBOOKS)
 	watchmedo shell-command \
