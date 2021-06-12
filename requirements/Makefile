@@ -3,11 +3,13 @@ default: all install
 
 .PHONY: all
 all: requirements.txt dev-requirements.txt
+	pip-sync requirements.txt
+	pip install pipdeptree
+	pipdeptree --warn silence | grep -E '^\w+' | grep -v pipdeptree > ../binder/requirements.txt
 
 .PHONY: install
 install: requirements.txt dev-requirements.txt
 	pip-sync $^
-	pipdeptree --warn silence | grep -E '^\w+' > ../binder/requirements.txt
 
 dev-requirements.txt: dev-requirements.in requirements.txt
 	pip-compile $<
