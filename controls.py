@@ -1,6 +1,7 @@
 import functools
 from typing import List, Tuple
 
+import ipyvuetify as v
 import ipywidgets as widgets
 
 
@@ -150,3 +151,62 @@ class SpectralBandsControlPanel():
 
     def on_remove_spectral_band(self, handler):
         self.on_remove_spectral_band_handler = handler
+
+
+class OpticsControlPanel():
+    def __init__(self, *, diameter: float=1.0, focal_length: float=2.0):
+        self.diameter = diameter
+        self.focal_length = focal_length
+
+        self.on_change_handler = type(None)
+
+        self.update_widgets()
+
+    @property
+    def fnumber(self):
+        return self.focal_length/self.diameter
+
+    def update_parameters(self, parameter, change):
+        setattr(self, parameter, change.new)
+        self.on_change_handler()
+
+    def update_widgets(self):
+        diameter = widgets.FloatSlider(
+            description=f'Diameter (cm)',
+            value=self.diameter,
+            min=0.1,
+            max=10,
+            step=0.1,
+            readout=True,
+            style = {'description_width': 'initial'},
+        )
+        focal_length = widgets.FloatSlider(
+            description=f'Focal Length (cm)',
+            value=self.focal_length,
+            min=0.1,
+            max=10,
+            step=0.1,
+            readout=True,
+            style = {'description_width': 'initial'},
+        )
+
+        diameter.observe(functools.partial(self.update_parameters, 'diameter'), names='value')
+        focal_length.observe(functools.partial(self.update_parameters, 'focal_length'), names='value')
+
+        self._widget = v.Card(
+            outlined=True,
+            children=[
+                v.CardTitle(children=['Optics']),
+                v.CardText(children=[
+                    diameter,
+                    focal_length,
+                ]),
+            ]
+        )
+
+    def on_change(self, handler):
+        self.on_change_handler = handler
+
+    @property
+    def widget(self):
+        return self._widget

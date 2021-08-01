@@ -60,10 +60,15 @@ ipython==7.19.0
     #   ipykernel
     #   ipywidgets
     #   jupyterlab
+ipyvue==1.5.0
+    # via ipyvuetify
+ipyvuetify==1.8.0
+    # via -r requirements.in
 ipywidgets==7.6.3
     # via
     #   -r requirements.in
     #   ipympl
+    #   ipyvue
 jedi==0.18.0
     # via ipython
 jinja2==2.11.3
