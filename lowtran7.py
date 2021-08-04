@@ -2,6 +2,7 @@
 # %matplotlib widget
 from pathlib import Path
 
+import ipyvuetify as v
 import ipywidgets as widgets
 import jinja2
 import matplotlib as mpl
@@ -190,18 +191,44 @@ spectral_bands_control_panel.on_add_spectral_band(add_spectral_band)
 spectral_bands_control_panel.on_remove_spectral_band(remove_spectral_band)
 
 
-widgets.AppLayout(
-    header=None,
-    left_sidebar=None,
-    center=widgets.VBox([
-        widgets.HTML(value='<h1 style="text-align: center">LOWTRAN7</h1>'),
-        model,
-        range,
-        spectral_bands_control_panel.widget_container,
-        table.widget,
-        figure.canvas,
+v.Container(children=[
+    v.Col(cols=12, md=12, children=[widgets.HTML(value='<h1 style="text-align: center">LOWTRAN7</h1>')]),
+    v.Row(children=[
+        v.Col(cols=12, md=6, children=[
+            v.Card(
+                outlined=True,
+                children=[
+                    v.CardTitle(children=['Parameters']),
+                    v.CardText(children=[
+                        model,
+                        range,
+                    ]),
+            ]),
+            v.Card(
+                outlined=True,
+                children=[
+                    v.CardTitle(children=['Spectral Bands']),
+                    v.CardText(children=[
+                        spectral_bands_control_panel.widget_container,
+                        widgets.HTML('<br>'),
+                        table.widget,
+                    ]),
+            ]),
         ]),
-    right_sidebar=None,
-    footer=None,
-    width='50%',
-    )
+        v.Col(cols=12, md=6, children=[
+            v.Card(
+                outlined=True,
+                children=[
+                    v.CardTitle(children=['Figure']),
+                    v.CardText(children=[
+                        figure.canvas,
+                    ]),
+            ]),
+        ]),
+    ]),
+    # v.Row(children=[
+    #     v.Col(cols=12, md=12, children=[
+    #         output
+    #     ]),
+    # ]),
+])
