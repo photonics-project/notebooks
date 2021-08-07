@@ -1,4 +1,5 @@
 -c requirements.txt
+pip-tools
 pipdeptree
 pre-commit
 watchdog[watchmedo]
