@@ -191,7 +191,7 @@ spectral_bands_control_panel.on_add_spectral_band(add_spectral_band)
 spectral_bands_control_panel.on_remove_spectral_band(remove_spectral_band)
 
 
-v.Container(children=[
+v.Container(fluid=True, children=[
     v.Col(cols=12, md=12, children=[widgets.HTML(value='<h1 style="text-align: center">LOWTRAN7</h1>')]),
     v.Row(children=[
         v.Col(cols=12, md=6, children=[
@@ -232,3 +232,11 @@ v.Container(children=[
     #     ]),
     # ]),
 ])
+
+
+# %% [markdown]
+"""
+## Description
+
+This notebook computes transmission through atmosphere for different atmospheric models at a variety of ranges.
+"""

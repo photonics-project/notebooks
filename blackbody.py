@@ -158,7 +158,7 @@ spectral_bands_control_panel.on_add_spectral_band(add_spectral_band)
 spectral_bands_control_panel.on_remove_spectral_band(remove_spectral_band)
 
 
-v.Container(children=[
+v.Container(fluid=True, children=[
     v.Row(children=[
         v.Col(cols=12, md=12, children=[widgets.HTML(value='<h1 style="text-align: center">Blackbody</h1>')]),
         v.Col(cols=12, md=6, children=[
@@ -198,3 +198,14 @@ v.Container(children=[
     #     ]),
     # ]),
 ])
+
+
+# %% [markdown]
+"""
+## Description
+
+This notebook computes the blackbody spectrum.
+$$
+B_\lambda(\lambda,T)=\frac{2hc^2}{\lambda^5}\frac{1}{e^{hc/(\lambda k_\mathrm{B}T)}-1}
+$$
+"""

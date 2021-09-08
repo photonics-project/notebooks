@@ -91,7 +91,7 @@ wavelengths_control_panel.on_add_wavelength(update_wavelengths)
 wavelengths_control_panel.on_remove_wavelength(update_wavelengths)
 
 
-v.Container(children=[
+v.Container(fluid=True, children=[
     v.Row(children=[
         v.Col(cols=12, md=6, children=[
             optics_control_panel.widget,
@@ -121,3 +121,11 @@ v.Container(children=[
     #     ]),
     # ]),
 ])
+
+
+# %% [markdown]
+"""
+## Description
+
+This notebook computes the point spread function associated with a given optical chain.
+"""
