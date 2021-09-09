@@ -33,7 +33,7 @@ notebooks: $(NOTEBOOKS)
 start-dev: stop-dev $(NOTEBOOKS)
 	watchmedo shell-command \
 		--patterns="*.py" \
-		--command='jupytext --to notebook $${watch_src_path}' \
+		--command='jupytext --from py:percent --to notebook $${watch_src_path}' \
 		& echo "$$!" >> watchmedo.pid
 	voila --debug . & echo "$$!" >> voila.pid
 
@@ -49,4 +49,4 @@ clean:
 	- rm *.ipynb
 
 %.ipynb: %.py
-	jupytext --to notebook $<
+	jupytext --from py:percent --to notebook $<
