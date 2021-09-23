@@ -1,5 +1,7 @@
 -c requirements.txt
+nbmake
 pip-tools
 pipdeptree
 pre-commit
+pytest
 watchdog[watchmedo]

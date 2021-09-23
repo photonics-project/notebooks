@@ -8,45 +8,190 @@ appdirs==1.4.4
     # via virtualenv
 argh==0.26.2
     # via watchdog
+async-generator==1.10
+    # via
+    #   -c requirements.txt
+    #   nbclient
+attrs==20.3.0
+    # via
+    #   -c requirements.txt
+    #   jsonschema
+    #   pytest
+backcall==0.2.0
+    # via
+    #   -c requirements.txt
+    #   ipython
 cfgv==3.2.0
     # via pre-commit
 click==8.0.1
     # via pip-tools
+decorator==4.4.2
+    # via
+    #   -c requirements.txt
+    #   ipython
 distlib==0.3.1
     # via virtualenv
 filelock==3.0.12
     # via virtualenv
 identify==2.2.4
     # via pre-commit
+iniconfig==1.1.1
+    # via pytest
+ipykernel==5.4.3
+    # via
+    #   -c requirements.txt
+    #   nbmake
+ipython==7.19.0
+    # via
+    #   -c requirements.txt
+    #   ipykernel
+ipython-genutils==0.2.0
+    # via
+    #   -c requirements.txt
+    #   nbformat
+    #   traitlets
+jedi==0.18.0
+    # via
+    #   -c requirements.txt
+    #   ipython
+jsonschema==3.2.0
+    # via
+    #   -c requirements.txt
+    #   nbformat
+jupyter-client==6.1.11
+    # via
+    #   -c requirements.txt
+    #   ipykernel
+    #   nbclient
+jupyter-core==4.7.0
+    # via
+    #   -c requirements.txt
+    #   jupyter-client
+    #   nbformat
+nbclient==0.5.1
+    # via
+    #   -c requirements.txt
+    #   nbmake
+nbformat==5.1.2
+    # via
+    #   -c requirements.txt
+    #   nbclient
+    #   nbmake
+nbmake==0.8
+    # via -r dev-requirements.in
+nest-asyncio==1.4.3
+    # via
+    #   -c requirements.txt
+    #   nbclient
 nodeenv==1.6.0
     # via pre-commit
+packaging==20.8
+    # via
+    #   -c requirements.txt
+    #   pytest
+parso==0.8.1
+    # via
+    #   -c requirements.txt
+    #   jedi
+pathlib==1.0.1
+    # via nbmake
 pep517==0.11.0
     # via pip-tools
+pexpect==4.8.0
+    # via
+    #   -c requirements.txt
+    #   ipython
+pickleshare==0.7.5
+    # via
+    #   -c requirements.txt
+    #   ipython
 pip-tools==6.2.0
     # via -r dev-requirements.in
 pipdeptree==2.0.0
     # via -r dev-requirements.in
+pluggy==1.0.0
+    # via pytest
 pre-commit==2.12.1
     # via -r dev-requirements.in
+prompt-toolkit==3.0.13
+    # via
+    #   -c requirements.txt
+    #   ipython
+ptyprocess==0.7.0
+    # via
+    #   -c requirements.txt
+    #   pexpect
+py==1.10.0
+    # via pytest
+pydantic==1.8.2
+    # via nbmake
+pygments==2.7.4
+    # via
+    #   -c requirements.txt
+    #   ipython
+    #   nbmake
+pyparsing==2.4.7
+    # via
+    #   -c requirements.txt
+    #   packaging
+pyrsistent==0.17.3
+    # via
+    #   -c requirements.txt
+    #   jsonschema
+pytest==6.2.5
+    # via
+    #   -r dev-requirements.in
+    #   nbmake
+python-dateutil==2.8.1
+    # via
+    #   -c requirements.txt
+    #   jupyter-client
 pyyaml==5.4.1
     # via
     #   -c requirements.txt
     #   pre-commit
     #   watchdog
+pyzmq==21.0.1
+    # via
+    #   -c requirements.txt
+    #   jupyter-client
 six==1.15.0
     # via
     #   -c requirements.txt
+    #   jsonschema
+    #   python-dateutil
     #   virtualenv
 toml==0.10.2
     # via
     #   -c requirements.txt
     #   pre-commit
+    #   pytest
 tomli==1.2.1
     # via pep517
+tornado==6.1
+    # via
+    #   -c requirements.txt
+    #   ipykernel
+    #   jupyter-client
+traitlets==5.0.5
+    # via
+    #   -c requirements.txt
+    #   ipykernel
+    #   ipython
+    #   jupyter-client
+    #   jupyter-core
+    #   nbclient
+    #   nbformat
+typing-extensions==3.10.0.2
+    # via pydantic
 virtualenv==20.4.4
     # via pre-commit
 watchdog[watchmedo]==1.0.2
     # via -r dev-requirements.in
+wcwidth==0.2.5
+    # via
+    #   -c requirements.txt
+    #   prompt-toolkit
 wheel==0.36.2
     # via pip-tools
 
