@@ -8,7 +8,6 @@ import jinja2
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy.integrate
 
 from controls import SpectralBandsControlPanel
 
@@ -16,6 +15,7 @@ from controls import SpectralBandsControlPanel
 parameters = {
     'model': 6,
     'range': 1,
+    'haze': 1,
     'spectral_bands': [(3.0, 5.0), (8.0, 12.0)],
 }
 
@@ -58,7 +58,8 @@ class Figure():
     def plot(self):
         model_idx = parameters['model'] - 1
         range_idx = parameters['range'] - 1
-        data_idx = np.ravel_multi_index((model_idx, range_idx), (6, 7))
+        haze_idx = parameters['haze'] - 1
+        data_idx = np.ravel_multi_index((model_idx, range_idx, haze_idx), (6, 7, 4))
 
         self.ax.clear()
         self.ax.plot(xlambda, Tcoeff[data_idx])
@@ -83,7 +84,8 @@ class Table():
     def update(self):
         model_idx = parameters['model'] - 1
         range_idx = parameters['range'] - 1
-        data_idx = np.ravel_multi_index((model_idx, range_idx), (6, 7))
+        haze_idx = parameters['haze'] - 1
+        data_idx = np.ravel_multi_index((model_idx, range_idx, haze_idx), (6, 7, 4))
 
         spectral_bands = parameters['spectral_bands']
 
@@ -147,6 +149,17 @@ range = widgets.Dropdown(
     description='Range (km):',
     )
 
+haze = widgets.Dropdown(
+    options=[
+        ('None', 1),
+        ('Rural (23 km)', 2),
+        ('Rural (5 km)', 3),
+        ('Urban (5 km)', 4),
+        ],
+    value=parameters['haze'],
+    description='Haze:',
+    )
+
 spectral_bands_control_panel = SpectralBandsControlPanel(
     spectral_bands=parameters['spectral_bands'],
     lambda_min=np.min(xlambda),
@@ -169,6 +182,11 @@ def update_range(change):
     update()
 
 
+def update_haze(change):
+    parameters.update({'haze': change.new})
+    update()
+
+
 def update_wavelengths():
     parameters['spectral_bands'] = spectral_bands_control_panel.spectral_bands
     update()
@@ -186,6 +204,7 @@ def remove_spectral_band():
 
 model.observe(update_model, names='value')
 range.observe(update_range, names='value')
+haze.observe(update_haze, names='value')
 spectral_bands_control_panel.on_change(update_wavelengths)
 spectral_bands_control_panel.on_add_spectral_band(add_spectral_band)
 spectral_bands_control_panel.on_remove_spectral_band(remove_spectral_band)
@@ -202,6 +221,7 @@ v.Container(fluid=True, children=[
                     v.CardText(children=[
                         model,
                         range,
+                        haze,
                     ]),
             ]),
             v.Card(

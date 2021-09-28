@@ -7,7 +7,7 @@ import numpy as np
 
 TAPE5_TEMPLATE = jinja2.Environment().from_string(r'''
 {{'%5d'|format(MODEL)}}    1    0    0{{'%40s'|format(' '*40)}}    0
-    0    0    0
+{{'%5d'|format(IHAZE)}}    0    0
 {{'%10.3f'|format(H1)}}{{'%20s'|format(' '*20)}}{{'%10.3f'|format(RANGE)}}
    400.000 50000.000{{'%10.3f'|format(DV)}}
 {{'%5d'|format(IRPT)}}
@@ -16,8 +16,9 @@ TAPE5_TEMPLATE = jinja2.Environment().from_string(r'''
 
 models = np.array([1, 2, 3, 4, 5, 6])
 ranges = np.array([0.5, 1, 2, 5, 10, 20, 50])
+haze_types = np.array([0, 1, 2, 5])
 
-parameters = np.array(np.meshgrid(models, ranges, indexing='ij')).reshape((2,-1)).T
+parameters = np.array(np.meshgrid(models, ranges, haze_types, indexing='ij')).reshape((3,-1)).T
 
 H1 = 0.0
 DV = 5
@@ -31,11 +32,12 @@ xnu = np.linspace(400, 50000, Npts)
 
 def main():
     with open('TAPE5', 'w') as f:
-        for (idx, (MODEL, RANGE)) in enumerate(parameters):
+        for (idx, (MODEL, RANGE, IHAZE)) in enumerate(parameters):
             IRPT = 0 if idx == len(parameters)-1 else 1
             print(
                 TAPE5_TEMPLATE.render(
                     MODEL=MODEL,
+                    IHAZE=IHAZE,
                     H1=H1,
                     RANGE=RANGE,
                     DV=DV,
