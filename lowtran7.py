@@ -1,6 +1,8 @@
 # %%
 # %matplotlib widget
-from pathlib import Path
+import base64
+import io
+import pathlib
 
 import ipyvuetify as v
 import ipywidgets as widgets
@@ -20,9 +22,12 @@ parameters = {
 }
 
 
-data = np.load(Path().resolve() / 'lowtran/lowtran7.npz')
+data = np.load(pathlib.Path().resolve() / 'lowtran/lowtran7.npz')
 xlambda = data['xlambda'][::-1]
 Tcoeff = data['Tcoeff'][:,::-1]
+
+
+output = widgets.Output()
 
 
 class Figure():
@@ -116,10 +121,38 @@ class Table():
         self.widget.value = table_template.render(values=values)
 
 
+class Downloader():
+    def __init__(self):
+        self.widget0 = v.Btn(text=True, children=['Prepare Data Export'])
+        self.widget0.on_event('click', self.prepare_download)
+        self.widget = widgets.HBox([self.widget0])
+
+        self.reset()
+
+    def prepare_download(self, widget, event, data):
+        model_idx = parameters['model'] - 1
+        range_idx = parameters['range'] - 1
+        haze_idx = parameters['haze'] - 1
+        data_idx = np.ravel_multi_index((model_idx, range_idx, haze_idx), (6, 7, 4))
+
+        with io.StringIO() as data_table:
+            print('Wavelength (um),Transmission', file=data_table)
+            np.savetxt(data_table, np.column_stack((xlambda, Tcoeff[data_idx])), fmt=['%.4f', '%.6f'], delimiter=',')
+            payload = base64.b64encode(data_table.getvalue().encode()).decode()
+
+        self.widget.children = [
+            v.Btn(txt=True, children=[v.Icon(children=['mdi-download'])], href=f'data:text/csv;base64,{payload}', attributes={'download': 'lowtran7.csv'})
+        ]
+
+    def reset(self):
+        self.widget.children = [self.widget0]
+
+
 plt.ioff()
 
 figure = Figure()
 table = Table()
+downloader = Downloader()
 
 
 model = widgets.Dropdown(
@@ -170,6 +203,7 @@ spectral_bands_control_panel = SpectralBandsControlPanel(
 def update():
     figure.update()
     table.update()
+    downloader.reset()
 
 
 def update_model(change):
@@ -230,9 +264,19 @@ v.Container(fluid=True, children=[
                     v.CardTitle(children=['Spectral Bands']),
                     v.CardText(children=[
                         spectral_bands_control_panel.widget_container,
-                        widgets.HTML('<br>'),
+                    ]),
+            ]),
+            v.Card(
+                outlined=True,
+                children=[
+                    v.CardTitle(children=['Results']),
+                    v.CardText(children=[
                         table.widget,
                     ]),
+                    v.CardActions(children=[
+                        v.Spacer(),
+                        downloader.widget,
+                    ])
             ]),
         ]),
         v.Col(cols=12, md=6, children=[
