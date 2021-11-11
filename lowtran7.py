@@ -6,7 +6,6 @@ import pathlib
 
 import ipyvuetify as v
 import ipywidgets as widgets
-import jinja2
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -82,7 +81,7 @@ class Figure():
 
 class Table():
     def __init__(self):
-        self.widget = widgets.HTML(value='')
+        self.widget = v.Html(tag='div', class_='d-flex flex-row', children=[])
 
         self.update()
 
@@ -102,23 +101,23 @@ class Table():
             for (lambda_min, lambda_max) in spectral_bands
             ]
 
-        table_template = jinja2.Environment().from_string('''
-            <table style="width: 100%; border: solid; text-align: left">
-              <thead>
-                <th>Parameter</th>
-                <th>Value</th>
-              </thead>
-              {% for value in values %}
-              <tr>
-                <td>In-band (Λ<sub>{{loop.index}}</sub>) average transmission</td>
-                <td>{{"%g" % value}}</td>
-              </tr>
-              {% endfor %}
-            </table>
-            '''
-            )
-
-        self.widget.value = table_template.render(values=values)
+        table = v.DataTable(
+            style_='width: 100%',
+            hide_default_footer=True,
+            disable_sort=True,
+            headers=[
+                {'text': 'Parameter', 'value': 'parameter'},
+                {'text': 'Value', 'value': 'value'},
+            ],
+            items=[
+                {
+                    'parameter': f'Band #{idx+1} average transmission',
+                    'value': f'{value:.3f}',
+                }
+                for (idx, value) in enumerate(values)
+            ],
+        )
+        self.widget.children = [table]
 
 
 class Downloader():

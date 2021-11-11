@@ -3,7 +3,6 @@
 import colour
 import ipyvuetify as v
 import ipywidgets as widgets
-import jinja2
 import matplotlib.pyplot as pyplot
 import numpy as np
 import scipy.integrate
@@ -68,7 +67,7 @@ class Figure():
 
 class Table():
     def __init__(self):
-        self.widget = widgets.HTML(value='')
+        self.widget = v.Html(tag='div', class_='d-flex flex-row', children=[])
 
         self.update()
 
@@ -83,25 +82,25 @@ class Table():
             for (lambda_min, lambda_max) in spectral_bands
             ]
 
-        table_template = jinja2.Environment().from_string('''
-            <table style="width: 100%; border: solid; text-align: left">
-              <thead>
-                <th>Parameter</th>
-                <th>Value</th>
-                <th>Units</th>
-              </thead>
-              {% for value in values %}
-              <tr>
-                <td>In-band (Λ<sub>{{loop.index}}</sub>) radiant sterance</td>
-                <td>{{"%g" % value}}</td>
-                <td>W cm<sup>-2</sup> sr<sup>-1</sup></td>
-              </tr>
-              {% endfor %}
-            </table>
-            '''
-            )
-
-        self.widget.value = table_template.render(values=values)
+        table = v.DataTable(
+            style_='width: 100%',
+            hide_default_footer=True,
+            disable_sort=True,
+            headers=[
+                {'text': 'Parameter', 'value': 'parameter'},
+                {'text': 'Value', 'value': 'value'},
+                {'text': 'Units', 'value': 'units'},
+            ],
+            items=[
+                {
+                    'parameter': f'Band #{idx+1} radiant sterance',
+                    'value': f'{value:g}',
+                    'units': 'W cm⁻² sr⁻¹',
+                }
+                for (idx, value) in enumerate(values)
+            ],
+        )
+        self.widget.children = [table]
 
 
 def blackbody_spectral_radiant_sterance(temperature, wavelength):
