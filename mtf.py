@@ -147,23 +147,9 @@ def update_wavelengths():
     figure.update()
 
 
-def add_wavelength():
-    parameters['wavelengths'] = wavelengths_control_panel.xlambda
-    figure.plot_optics_mtf()
-    figure.update()
-
-
-def remove_wavelength():
-    parameters['wavelengths'] = wavelengths_control_panel.xlambda
-    figure.plot_optics_mtf()
-    figure.update()
-
-
 fnumber.observe(update_fnumber, names='value')
 pixel_pitch.observe(update_pixel_pitch, names='value')
 wavelengths_control_panel.on_change(update_wavelengths)
-wavelengths_control_panel.on_add_wavelength(add_wavelength)
-wavelengths_control_panel.on_remove_wavelength(remove_wavelength)
 
 
 widgets.AppLayout(
@@ -173,7 +159,7 @@ widgets.AppLayout(
         widgets.HTML(value='<h1 style="text-align: center">Modulation Transfer Function</h1>'),
         fnumber,
         pixel_pitch,
-        wavelengths_control_panel.widget_container,
+        wavelengths_control_panel.widget,
         figure.canvas,
         ]),
     right_sidebar=None,

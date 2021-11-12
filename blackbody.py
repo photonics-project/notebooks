@@ -139,22 +139,8 @@ def update_wavelengths():
     table.update()
 
 
-def add_spectral_band():
-    parameters['wavelengths'] = spectral_bands_control_panel.spectral_bands
-    figure.update()
-    table.update()
-
-
-def remove_spectral_band():
-    parameters['wavelengths'] = spectral_bands_control_panel.spectral_bands
-    figure.update()
-    table.update()
-
-
 temperature.observe(update_temperature, names='value')
 spectral_bands_control_panel.on_change(update_wavelengths)
-spectral_bands_control_panel.on_add_spectral_band(add_spectral_band)
-spectral_bands_control_panel.on_remove_spectral_band(remove_spectral_band)
 
 
 v.Container(fluid=True, children=[
@@ -174,7 +160,7 @@ v.Container(fluid=True, children=[
                 children=[
                     v.CardTitle(children=['Spectral Bands']),
                     v.CardText(children=[
-                        spectral_bands_control_panel.widget_container,
+                        spectral_bands_control_panel.widget,
                         widgets.HTML('<br>'),
                         table.widget,
                     ]),

@@ -3,154 +3,214 @@ from typing import List, Tuple
 
 import ipyvuetify as v
 import ipywidgets as widgets
+import traitlets
+
+
+class MyFloatSlider(v.VuetifyTemplate):
+    label = traitlets.Unicode().tag(sync=True)
+    value = traitlets.Float(default_value=0).tag(sync=True)
+    min = traitlets.Float(default_value=0).tag(sync=True)
+    max = traitlets.Float(default_value=1).tag(sync=True)
+    step = traitlets.Float(default_value=0.1).tag(sync=True)
+
+    @traitlets.default('template')
+    def _template(self):
+        return '''
+          <v-slider
+            v-model="value"
+            :label="label"
+            :min="min" :max="max" :step="step"
+            hide-details
+            style="width: 400px"
+            class="align-center"
+          >
+            <template v-slot:append>
+              <v-text-field
+                v-model="value"
+                type="number"
+                :min="min" :step="step"
+                dense hide-details outlined single-line
+                class="mt-0 pt-0"
+                style="width: 5em"
+                @change="$set(value, $event)"
+              ></v-text-field>
+            </template>
+          </v-slider>
+        '''
+
+
+class MyFloatRangeSlider(v.VuetifyTemplate):
+    label = traitlets.Unicode().tag(sync=True)
+    value = traitlets.List(traitlets.Float(), default_value=[0, 1]).tag(sync=True)
+    min = traitlets.Float(default_value=0).tag(sync=True)
+    max = traitlets.Float(default_value=1).tag(sync=True)
+    step = traitlets.Float(default_value=0.1).tag(sync=True)
+
+    @traitlets.default('template')
+    def _template(self):
+        return '''
+          <v-range-slider
+            v-model="value"
+            :label="label"
+            :min="min" :max="max" :step="step"
+            hide-details
+            style="width: 400px"
+            class="align-center"
+          >
+            <template v-slot:append>
+              <v-text-field
+                type="number"
+                :value="value[0]"
+                :min="min" :step="step"
+                dense hide-details outlined single-line
+                class="mt-0 pt-0"
+                style="width: 5em"
+                @change="$set(value, 0, $event)"
+              ></v-text-field>
+              <v-text-field
+                type="number"
+                :value="value[1]"
+                :max="max" :step="step"
+                dense hide-details outlined single-line
+                class="mt-0 pt-0"
+                style="width: 5em"
+                @change="$set(value, 1, $event)"
+              ></v-text-field>
+            </template>
+          </v-range-slider>
+        '''
 
 
 class WavelengthsControlPanel():
-    def __init__(self, *, xlambda: List[float]=[3.0, 5.0], Nmax=10, lambda_min=0.2, lambda_max=30):
+    def __init__(self, *, xlambda: List[float]=[3.0, 5.0], lambda_min=0.2, lambda_max=30):
         self.xlambda = xlambda
-        self.Nmax = Nmax
         self.lambda_min = lambda_min
         self.lambda_max = lambda_max
+        self._active_wavelengths = [0]
 
-        self._widget_container = widgets.VBox([])
         self.on_change_handler = type(None)
-        self.on_add_wavelength_handler = type(None)
-        self.on_remove_wavelength_handler = type(None)
 
-        self.update_widgets()
-
-    def add_wavelength(self, xlambda):
-        self.xlambda.append(xlambda)
-        self.update_widgets()
-        self.on_add_wavelength_handler()
-
-    def remove_wavelength(self, idx):
-        self.xlambda.pop(idx)
-        self.update_widgets()
-        self.on_remove_wavelength_handler()
+    def toggle_wavelength(self, widget, event, data):
+        self._active_wavelengths = data
+        self.on_change_handler()
 
     def update_wavelength(self, idx, change):
         self.xlambda[idx] = change.new
         self.on_change_handler()
 
-    def add_slider(self, ni):
-        button = widgets.Button(description='Add Wavelength', button_style='success', disabled=(ni>=self.Nmax))
-        button.on_click(lambda button: self.add_wavelength(5))
-        return button
-
-    def remove_slider(self, idx, ni):
-        button = widgets.Button(description='', icon='trash', button_style='danger', disabled=(idx==0 and ni==1))
-        button.on_click(lambda button: self.remove_wavelength(idx))
-        return button
-
-    def update_widgets(self):
-        sliders = [
-            widgets.HBox([
-                widgets.FloatSlider(
-                    description=f'$\lambda_{{{idx+1}}}$ (µm)',
-                    value=xx,
-                    min=self.lambda_min,
-                    max=self.lambda_max,
-                    step=0.1,
-                    readout=True,
-                    layout={'width': '50%'},
-                    style = {'description_width': 'initial'},
-                ),
-                self.remove_slider(idx, len(self.xlambda)),
-            ])
-            for (idx, xx) in enumerate(self.xlambda)
-        ]
-        self._widget_container.children = sliders + [self.add_slider(len(self.xlambda))]
-
-        for (idx, slider) in enumerate(sliders):
-            slider.children[0].observe(functools.partial(self.update_wavelength, idx), names='value')
+    @property
+    def active_wavelengths(self):
+        return sorted(self._active_wavelengths)
 
     @property
-    def widget_container(self):
-        return self._widget_container
+    def widget(self):
+        sliders = [
+            MyFloatSlider(
+                label=f'Wavelength #{idx+1} (µm)',
+                value=xx,
+                min=self.lambda_min,
+                max=self.lambda_max,
+                step=0.1,
+            )
+            for (idx, xx) in enumerate(self.xlambda)
+        ]
+        for (idx, slider) in enumerate(sliders):
+            slider.observe(functools.partial(self.update_wavelength, idx), names='value')
+
+        toggle = v.BtnToggle(
+            v_model=self._active_wavelengths,
+            mandatory=True,
+            multiple=True,
+            children=[
+                v.Btn(x_small=True, active=True, children=[f'{idx+1}']) for (idx, xx) in enumerate(self.xlambda)
+            ]
+        )
+
+        toggle.on_event('change', self.toggle_wavelength)
+
+        return v.Html(
+            tag='div', class_='d-flex flex-column',
+            children=[
+                # toggle,
+                # v.Html(tag='br'),
+                *sliders
+            ]
+        )
 
     def on_change(self, handler):
         self.on_change_handler = handler
 
-    def on_add_wavelength(self, handler):
-        self.on_add_wavelength_handler = handler
-
-    def on_remove_wavelength(self, handler):
-        self.on_remove_wavelength_handler = handler
+    def __str__(self):
+        return str({
+            # 'active_wavelengths': self.active_wavelengths,
+            'xlambda': self.xlambda,
+        })
 
 
 class SpectralBandsControlPanel():
-    def __init__(self, *, spectral_bands: List[Tuple[float, float]]=[(3.0, 5.0)], Nmax=10, lambda_min=0.2, lambda_max=30):
+    def __init__(self, *, spectral_bands: List[Tuple[float, float]]=[(3.0, 5.0)], lambda_min=0.2, lambda_max=30):
         self.spectral_bands = spectral_bands
-        self.Nmax = Nmax
         self.lambda_min = lambda_min
         self.lambda_max = lambda_max
+        self._active_spectral_bands = [0]
 
-        self._widget_container = widgets.VBox([])
         self.on_change_handler = type(None)
-        self.on_add_spectral_band_handler = type(None)
-        self.on_remove_spectral_band_handler = type(None)
 
-        self.update_widgets()
-
-    def add_spectral_band(self, spectral_bands):
-        self.spectral_bands.append(spectral_bands)
-        self.update_widgets()
-        self.on_add_spectral_band_handler()
-
-    def remove_spectral_band(self, idx):
-        self.spectral_bands.pop(idx)
-        self.update_widgets()
-        self.on_remove_spectral_band_handler()
+    def toggle_spectral_band(self, widget, event, data):
+        self._active_spectral_bands = data
+        self.on_change_handler()
 
     def update_spectral_band(self, idx, change):
         self.spectral_bands[idx] = change.new
         self.on_change_handler()
-        print(self.spectral_bands)
-
-    def add_slider(self, ni):
-        button = widgets.Button(description='Add Spectral Band', button_style='success', disabled=(ni>=self.Nmax))
-        button.on_click(lambda button: self.add_spectral_band((3.0, 5.0)))
-        return button
-
-    def remove_slider(self, idx, ni):
-        button = widgets.Button(description='', icon='trash', button_style='danger', disabled=(idx==0 and ni==1))
-        button.on_click(lambda button: self.remove_spectral_band(idx))
-        return button
-
-    def update_widgets(self):
-        sliders = [
-            widgets.HBox([
-                widgets.FloatRangeSlider(
-                    description=f'$\Lambda_{{{idx+1}}}$ (µm)',
-                    value=xx,
-                    min=self.lambda_min,
-                    max=self.lambda_max,
-                    step=0.1,
-                    readout=True,
-                    style = {'description_width': 'initial'},
-                ),
-                self.remove_slider(idx, len(self.spectral_bands)),
-            ])
-            for (idx, xx) in enumerate(self.spectral_bands)
-        ]
-        self._widget_container.children = sliders + [self.add_slider(len(self.spectral_bands))]
-
-        for (idx, slider) in enumerate(sliders):
-            slider.children[0].observe(functools.partial(self.update_spectral_band, idx), names='value')
 
     @property
-    def widget_container(self):
-        return self._widget_container
+    def active_spectral_bands(self):
+        return sorted(self._active_spectral_bands)
+
+    @property
+    def widget(self):
+        sliders = [
+            MyFloatRangeSlider(
+                label=f'Band #{idx+1} (µm)',
+                value=xx,
+                min=self.lambda_min,
+                max=self.lambda_max,
+                step=0.1,
+            )
+            for (idx, xx) in enumerate(self.spectral_bands)
+        ]
+        for (idx, slider) in enumerate(sliders):
+            slider.observe(functools.partial(self.update_spectral_band, idx), names='value')
+
+        toggle = v.BtnToggle(
+            v_model=self._active_spectral_bands,
+            mandatory=True,
+            multiple=True,
+            children=[
+                v.Btn(x_small=True, active=True, children=[f'{idx+1}']) for (idx, xx) in enumerate(self.spectral_bands)
+            ]
+        )
+
+        toggle.on_event('change', self.toggle_spectral_band)
+
+        return v.Html(
+            tag='div', class_='d-flex flex-column',
+            children=[
+                # toggle,
+                # v.Html(tag='br'),
+                *sliders
+            ]
+        )
 
     def on_change(self, handler):
         self.on_change_handler = handler
 
-    def on_add_spectral_band(self, handler):
-        self.on_add_spectral_band_handler = handler
-
-    def on_remove_spectral_band(self, handler):
-        self.on_remove_spectral_band_handler = handler
+    def __str__(self):
+        return str({
+            # 'active_spectral_bands': self.active_spectral_bands,
+            'spectral_bands': self.spectral_bands,
+        })
 
 
 class OpticsControlPanel():

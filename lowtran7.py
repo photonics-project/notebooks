@@ -225,22 +225,10 @@ def update_wavelengths():
     update()
 
 
-def add_spectral_band():
-    parameters['spectral_bands'] = spectral_bands_control_panel.spectral_bands
-    update()
-
-
-def remove_spectral_band():
-    parameters['spectral_bands'] = spectral_bands_control_panel.spectral_bands
-    update()
-
-
 model.observe(update_model, names='value')
 range.observe(update_range, names='value')
 haze.observe(update_haze, names='value')
 spectral_bands_control_panel.on_change(update_wavelengths)
-spectral_bands_control_panel.on_add_spectral_band(add_spectral_band)
-spectral_bands_control_panel.on_remove_spectral_band(remove_spectral_band)
 
 
 v.Container(fluid=True, children=[
@@ -262,7 +250,7 @@ v.Container(fluid=True, children=[
                 children=[
                     v.CardTitle(children=['Spectral Bands']),
                     v.CardText(children=[
-                        spectral_bands_control_panel.widget_container,
+                        spectral_bands_control_panel.widget,
                     ]),
             ]),
             v.Card(

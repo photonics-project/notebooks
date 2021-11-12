@@ -87,8 +87,6 @@ def update_wavelengths():
 
 optics_control_panel.on_change(update_optics)
 wavelengths_control_panel.on_change(update_wavelengths)
-wavelengths_control_panel.on_add_wavelength(update_wavelengths)
-wavelengths_control_panel.on_remove_wavelength(update_wavelengths)
 
 
 v.Container(fluid=True, children=[
@@ -100,7 +98,7 @@ v.Container(fluid=True, children=[
                 children=[
                     v.CardTitle(children=['Wavelengths']),
                     v.CardText(children=[
-                        wavelengths_control_panel.widget_container
+                        wavelengths_control_panel.widget,
                     ]),
             ]),
         ]),
