@@ -1,11 +1,15 @@
 # %%
 # %matplotlib widget
+import ipyvuetify as v
 import ipywidgets as widgets
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
-from controls import WavelengthsControlPanel
+from controls import (
+    MyFloatSlider,
+    WavelengthsControlPanel,
+)
 
 
 parameters = {
@@ -111,22 +115,20 @@ plt.ioff()
 
 figure = Figure()
 
-fnumber = widgets.FloatSlider(
-    description='Optics f/#',
+fnumber = MyFloatSlider(
+    label='Optics f/#',
     value=parameters['fnumber'],
     min=1,
     max=8,
     step=0.1,
-    style = {'description_width': 'initial'},
     )
 
-pixel_pitch = widgets.FloatSlider(
-    description='Pixel Pitch (µm)',
+pixel_pitch = MyFloatSlider(
+    label='Pixel Pitch (µm)',
     value=parameters['pixel_pitch'],
     min=2,
     max=100,
     step=1,
-    style = {'description_width': 'initial'},
     )
 
 wavelengths_control_panel = WavelengthsControlPanel(xlambda=parameters['wavelengths'])
@@ -152,17 +154,51 @@ pixel_pitch.observe(update_pixel_pitch, names='value')
 wavelengths_control_panel.on_change(update_wavelengths)
 
 
-widgets.AppLayout(
-    header=None,
-    left_sidebar=None,
-    center=widgets.VBox([
-        widgets.HTML(value='<h1 style="text-align: center">Modulation Transfer Function</h1>'),
-        fnumber,
-        pixel_pitch,
-        wavelengths_control_panel.widget,
-        figure.canvas,
+v.Container(fluid=True, children=[
+    v.Row(children=[
+        v.Col(cols=12, md=6, children=[
+            v.Card(
+                class_='mb-4',
+                outlined=True,
+                children=[
+                    v.CardTitle(children=['Optics']),
+                    v.CardText(children=[
+                        fnumber,
+                        pixel_pitch,
+                    ]),
+            ]),
+            v.Card(
+                class_='mb-4',
+                outlined=True,
+                children=[
+                    v.CardTitle(children=['Wavelengths']),
+                    v.CardText(children=[
+                        wavelengths_control_panel.widget,
+                    ]),
+            ]),
         ]),
-    right_sidebar=None,
-    footer=None,
-    width='50%',
-    )
+        v.Col(cols=12, md=6, children=[
+            v.Card(
+                class_='mb-4',
+                outlined=True,
+                children=[
+                    v.CardTitle(children=['Figure']),
+                    v.CardText(children=[
+                        figure.canvas,
+                    ]),
+            ]),
+        ]),
+    ]),
+    # v.Row(children=[
+    #     v.Col(cols=12, md=6, children=[
+    #         output
+    #     ]),
+    # ]),
+])
+
+# %% [markdown]
+"""
+## Description
+
+This notebook computes the modulation transfer function (MTF) of an optical system and detector array.
+"""

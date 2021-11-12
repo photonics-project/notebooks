@@ -220,8 +220,6 @@ class OpticsControlPanel():
 
         self.on_change_handler = type(None)
 
-        self.update_widgets()
-
     @property
     def fnumber(self):
         return self.focal_length/self.diameter
@@ -230,43 +228,33 @@ class OpticsControlPanel():
         setattr(self, parameter, change.new)
         self.on_change_handler()
 
-    def update_widgets(self):
-        diameter = widgets.FloatSlider(
-            description=f'Diameter (cm)',
+    @property
+    def widget(self):
+        diameter = MyFloatSlider(
+            label=f'Diameter (cm)',
             value=self.diameter,
             min=0.1,
             max=10,
             step=0.1,
-            readout=True,
-            style = {'description_width': 'initial'},
         )
-        focal_length = widgets.FloatSlider(
-            description=f'Focal Length (cm)',
+        focal_length = MyFloatSlider(
+            label=f'Focal Length (cm)',
             value=self.focal_length,
             min=0.1,
             max=10,
             step=0.1,
-            readout=True,
-            style = {'description_width': 'initial'},
         )
 
         diameter.observe(functools.partial(self.update_parameters, 'diameter'), names='value')
         focal_length.observe(functools.partial(self.update_parameters, 'focal_length'), names='value')
 
-        self._widget = v.Card(
-            outlined=True,
+        return v.Html(
+            tag='div', class_='d-flex flex-column',
             children=[
-                v.CardTitle(children=['Optics']),
-                v.CardText(children=[
-                    diameter,
-                    focal_length,
-                ]),
+                diameter,
+                focal_length,
             ]
         )
 
     def on_change(self, handler):
         self.on_change_handler = handler
-
-    @property
-    def widget(self):
-        return self._widget

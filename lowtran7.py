@@ -154,42 +154,42 @@ table = Table()
 downloader = Downloader()
 
 
-model = widgets.Dropdown(
-    options=[
-        ('Tropical Atmosphere', 1),
-        ('Midlatitude Summer', 2),
-        ('Midlatitude Winter', 3),
-        ('Subarctic Summer', 4),
-        ('Subarctic Winter', 5),
-        ('1976 US Standard', 6),
+model = v.Select(
+    label='Model',
+    items=[
+        {'text': 'Tropical Atmosphere', 'value': 1},
+        {'text': 'Midlatitude Summer', 'value': 2},
+        {'text': 'Midlatitude Winter', 'value': 3},
+        {'text': 'Subarctic Summer', 'value': 4},
+        {'text': 'Subarctic Winter', 'value': 5},
+        {'text': '1976 US Standard', 'value': 6},
         ],
     value=parameters['model'],
-    description='Model:',
     )
 
-range = widgets.Dropdown(
-    options=[
-        (0.5, 1),
-        (1, 2),
-        (2, 3),
-        (5, 4),
-        (10, 5),
-        (20, 6),
-        (50, 7),
+range = v.Select(
+    label='Range (km)',
+    items=[
+        {'text': 0.5, 'value': 1},
+        {'text': 1, 'value': 2},
+        {'text': 2, 'value': 3},
+        {'text': 5, 'value': 4},
+        {'text': 10, 'value': 5},
+        {'text': 20, 'value': 6},
+        {'text': 50, 'value': 7},
         ],
     value=parameters['range'],
-    description='Range (km):',
     )
 
-haze = widgets.Dropdown(
-    options=[
-        ('None', 1),
-        ('Rural (23 km)', 2),
-        ('Rural (5 km)', 3),
-        ('Urban (5 km)', 4),
+haze = v.Select(
+    label='Haze',
+    items=[
+        {'text': 'None', 'value': 1},
+        {'text': 'Rural (23 km)', 'value': 2},
+        {'text': 'Rural (5 km)', 'value': 3},
+        {'text': 'Urban (5 km)', 'value': 4},
         ],
     value=parameters['haze'],
-    description='Haze:',
     )
 
 spectral_bands_control_panel = SpectralBandsControlPanel(
@@ -205,18 +205,19 @@ def update():
     downloader.reset()
 
 
-def update_model(change):
-    parameters.update({'model': change.new})
+@output.capture()
+def update_model(widget, event, data):
+    parameters.update({'model': data})
     update()
 
 
-def update_range(change):
-    parameters.update({'range': change.new})
+def update_range(widget, event, data):
+    parameters.update({'range': data})
     update()
 
 
-def update_haze(change):
-    parameters.update({'haze': change.new})
+def update_haze(widget, event, data):
+    parameters.update({'haze': data})
     update()
 
 
@@ -225,9 +226,9 @@ def update_wavelengths():
     update()
 
 
-model.observe(update_model, names='value')
-range.observe(update_range, names='value')
-haze.observe(update_haze, names='value')
+model.on_event('change', update_model)
+range.on_event('change', update_range)
+haze.on_event('change', update_haze)
 spectral_bands_control_panel.on_change(update_wavelengths)
 
 
@@ -236,6 +237,7 @@ v.Container(fluid=True, children=[
     v.Row(children=[
         v.Col(cols=12, md=6, children=[
             v.Card(
+                class_='mb-4',
                 outlined=True,
                 children=[
                     v.CardTitle(children=['Parameters']),
@@ -246,6 +248,7 @@ v.Container(fluid=True, children=[
                     ]),
             ]),
             v.Card(
+                class_='mb-4',
                 outlined=True,
                 children=[
                     v.CardTitle(children=['Spectral Bands']),
@@ -254,6 +257,7 @@ v.Container(fluid=True, children=[
                     ]),
             ]),
             v.Card(
+                class_='mb-4',
                 outlined=True,
                 children=[
                     v.CardTitle(children=['Results']),

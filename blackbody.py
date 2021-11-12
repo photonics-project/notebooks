@@ -7,7 +7,10 @@ import matplotlib.pyplot as pyplot
 import numpy as np
 import scipy.integrate
 
-from controls import SpectralBandsControlPanel
+from controls import (
+    MyFloatSlider,
+    SpectralBandsControlPanel,
+)
 
 
 parameters = {
@@ -113,16 +116,13 @@ figure = Figure()
 table = Table()
 
 
-temperature = widgets.FloatSlider(
-    description='Temperature (K)',
+temperature = MyFloatSlider(
+    label='Temperature (K)',
     value=300,
     min=0,
     max=3000,
     step=1,
-    readout=True,
-    layout={'width': '50%'},
-    style = {'description_width': 'initial'},
-    )
+)
 
 spectral_bands_control_panel = SpectralBandsControlPanel(spectral_bands=parameters['spectral_bands'])
 
@@ -148,6 +148,7 @@ v.Container(fluid=True, children=[
         v.Col(cols=12, md=12, children=[widgets.HTML(value='<h1 style="text-align: center">Blackbody</h1>')]),
         v.Col(cols=12, md=6, children=[
             v.Card(
+                class_='mb-4',
                 outlined=True,
                 children=[
                     v.CardTitle(children=['Parameters']),
@@ -156,18 +157,27 @@ v.Container(fluid=True, children=[
                     ]),
             ]),
             v.Card(
+                class_='mb-4',
                 outlined=True,
                 children=[
                     v.CardTitle(children=['Spectral Bands']),
                     v.CardText(children=[
                         spectral_bands_control_panel.widget,
-                        widgets.HTML('<br>'),
+                    ]),
+            ]),
+            v.Card(
+                class_='mb-4',
+                outlined=True,
+                children=[
+                    v.CardTitle(children=['Results']),
+                    v.CardText(children=[
                         table.widget,
                     ]),
             ]),
         ]),
         v.Col(cols=12, md=6, children=[
             v.Card(
+                class_='mb-4',
                 outlined=True,
                 children=[
                     v.CardTitle(children=['Figure']),

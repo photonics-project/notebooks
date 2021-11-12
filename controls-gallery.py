@@ -33,9 +33,10 @@ spectral_bands_control_panel.on_change(update)
 
 v.Html(
     tag='div',
-    class_='d-flex flex-row',
+    class_='d-flex flex-row flex-wrap justify-space-around',
     children=[
         v.Card(
+            class_='ma-4',
             outlined=True,
             children=[
                 v.CardTitle(children=['Float Slider']),
@@ -49,6 +50,7 @@ v.Html(
             ]
         ),
         v.Card(
+            class_='ma-4',
             outlined=True,
             children=[
                 v.CardTitle(children=['Float Range Slider']),
@@ -62,6 +64,7 @@ v.Html(
             ]
         ),
         v.Card(
+            class_='ma-4',
             outlined=True,
             children=[
                 v.CardTitle(children=['Wavelengths Control Panel']),
@@ -72,6 +75,7 @@ v.Html(
             ]
         ),
         v.Card(
+            class_='ma-4',
             outlined=True,
             children=[
                 v.CardTitle(children=['Spectral Bands Control Panel']),

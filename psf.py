@@ -7,7 +7,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.special
 
-from controls import OpticsControlPanel, WavelengthsControlPanel
+from controls import (
+    OpticsControlPanel,
+    WavelengthsControlPanel,
+)
 
 
 parameters = {
@@ -92,8 +95,17 @@ wavelengths_control_panel.on_change(update_wavelengths)
 v.Container(fluid=True, children=[
     v.Row(children=[
         v.Col(cols=12, md=6, children=[
-            optics_control_panel.widget,
             v.Card(
+                class_='mb-4',
+                outlined=True,
+                children=[
+                    v.CardTitle(children=['Optics']),
+                    v.CardText(children=[
+                        optics_control_panel.widget,
+                    ]),
+            ]),
+            v.Card(
+                class_='mb-4',
                 outlined=True,
                 children=[
                     v.CardTitle(children=['Wavelengths']),
@@ -104,6 +116,7 @@ v.Container(fluid=True, children=[
         ]),
         v.Col(cols=12, md=6, children=[
             v.Card(
+                class_='mb-4',
                 outlined=True,
                 children=[
                     v.CardTitle(children=['Figure']),
