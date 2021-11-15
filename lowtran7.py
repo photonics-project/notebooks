@@ -72,11 +72,13 @@ class Figure():
             self.ax.fill_between(
                 xlambda[np.logical_and(xlambda > lambda_min, xlambda < lambda_max)],
                 Tcoeff[data_idx][np.logical_and(xlambda > lambda_min, xlambda < lambda_max)],
+                label=f'Band #{idx+1}',
                 color='none',
                 hatch='///',
                 edgecolor=f'C{idx}',
                 alpha=0.5
                 )
+        self.ax.legend()
 
 
 class Table():

@@ -3,7 +3,8 @@
 import colour
 import ipyvuetify as v
 import ipywidgets as widgets
-import matplotlib.pyplot as pyplot
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import numpy as np
 import scipy.integrate
 
@@ -23,7 +24,7 @@ output = widgets.Output()
 
 class Figure():
     def __init__(self):
-        (fig, ax) = pyplot.subplots()
+        (fig, ax) = plt.subplots()
 
         fig.canvas.header_visible = False
         fig.canvas.toolbar_visible = True
@@ -61,11 +62,13 @@ class Figure():
             self.ax.fill_between(
                 xlambda,
                 blackbody_spectral_radiant_sterance(temperature, xlambda),
+                label=f'Band #{idx+1}',
                 color='none',
                 hatch='///',
                 edgecolor=f'C{idx}',
                 alpha=0.5
                 )
+        self.ax.legend()
 
 
 class Table():
@@ -110,7 +113,7 @@ def blackbody_spectral_radiant_sterance(temperature, wavelength):
     return colour.colorimetry.blackbody.blackbody_spectral_radiance(wavelength*1e-6,temperature)/1e6/1e4
 
 
-pyplot.ioff()
+plt.ioff()
 
 figure = Figure()
 table = Table()
