@@ -258,3 +258,65 @@ class OpticsControlPanel():
 
     def on_change(self, handler):
         self.on_change_handler = handler
+
+
+class DetectorFormatControlPanel():
+    def __init__(self, *, Hdim: int=1280, Vdim: int=720, pitch: float=20.0):
+        self.Hdim = Hdim
+        self.Vdim = Vdim
+        self.pitch = pitch
+
+        self.on_change_handler = type(None)
+
+    def update_parameters(self, parameter, widget, event, data):
+        setattr(self, parameter, data)
+        self.on_change_handler()
+
+    @property
+    def widget(self):
+        Hdim = v.TextField(
+            label=f'Horizontal Dimension (pixels)',
+            type='number',
+            value=self.Hdim,
+            attributes={
+                'min': 1,
+                'max': 12288,
+            }
+        )
+        Vdim = v.TextField(
+            label=f'Vertical Dimension (pixels)',
+            type='number',
+            value=self.Vdim,
+            attributes={
+                'min': 1,
+                'max': 12288,
+            }
+        )
+        pitch = v.TextField(
+            label=f'Pixel Pitch (µm)',
+            type='number',
+            value=self.pitch,
+            attributes={
+                'min': 2,
+                'max': 120,
+            }
+        )
+
+        Hdim.on_event('input', functools.partial(self.update_parameters, 'Hdim'))
+        Vdim.on_event('input', functools.partial(self.update_parameters, 'Vdim'))
+        pitch.on_event('input', functools.partial(self.update_parameters, 'pitch'))
+
+        return v.Html(
+            tag='div', class_='d-flex flex-column',
+            children=[Hdim, Vdim, pitch]
+        )
+
+    def on_change(self, handler):
+        self.on_change_handler = handler
+
+    def __str__(self):
+        return str({
+            'Hdim': self.Hdim,
+            'Vdim': self.Vdim,
+            'pitch': self.pitch,
+        })
