@@ -259,6 +259,13 @@ class OpticsControlPanel():
     def on_change(self, handler):
         self.on_change_handler = handler
 
+    def __str__(self):
+        return str({
+            'diameter': self.diameter,
+            'focal_length': self.focal_length,
+            'fnumber': self.fnumber,
+        })
+
 
 class DetectorFormatControlPanel():
     def __init__(self, *, Hdim: int=1280, Vdim: int=720, pitch: float=20.0):
