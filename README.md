@@ -8,11 +8,11 @@
 | `psf` | [![Binder](https://mybinder.org/badge_logo.svg)][psf] |
 | `lowtran7` | [![Binder](https://mybinder.org/badge_logo.svg)][lowtran7] |
 
-[blackbody]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Fblackbody.ipynb
-[optics]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Foptics.ipynb
-[mtf]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Fmtf.ipynb
-[psf]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Fpsf.ipynb
-[lowtran7]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Flowtran7.ipynb
+[blackbody]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Fbuild%2Fblackbody.ipynb
+[optics]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Fbuild%2Foptics.ipynb
+[mtf]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Fbuild%2Fmtf.ipynb
+[psf]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Fbuild%2Fpsf.ipynb
+[lowtran7]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Fbuild%2Flowtran7.ipynb
 
 
 ## Introduction

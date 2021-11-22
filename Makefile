@@ -1,5 +1,5 @@
-SOURCES := $(wildcard *.py)
-NOTEBOOKS := $(patsubst %.py,%.ipynb,$(SOURCES))
+SOURCES := $(wildcard ./src/*.py)
+NOTEBOOKS := $(patsubst ./src/%.py,./build/%.ipynb,$(SOURCES))
 
 
 .PHONY: default
@@ -12,9 +12,15 @@ help:
 	@echo "==========================="
 	@echo "Below are the available \`make\` targets for the Photoics Project Notebooks package."
 	@echo
-	@echo "Development:"
+	@echo "Build:"
 	@echo "  install-requirements"
 	@echo "    install the requirements in the current Python environment"
+	@echo "  lowtran"
+	@echo "    compile and run lowtran to construct the data tables"
+	@echo "  notebooks"
+	@echo "    build the notebooks"
+	@echo
+	@echo "Development:"
 	@echo "  start-dev"
 	@echo "    watch Python source files and convert to IPython notebooks"
 	@echo "    run Voila server"
@@ -26,16 +32,28 @@ help:
 install-requirements:
 	$(MAKE) -C ./requirements/ install
 
+.PHONY: all
+all: lowtran notebooks
+
+.PHONY: lowtran
+lowtran:
+	make -C lowtran
+	mkdir -p ./build/lowtran/
+	cp ./lowtran/lowtran7.npz ./build/lowtran
+
 .PHONY: notebooks
-notebooks: $(NOTEBOOKS)
+notebooks: $(NOTEBOOKS) lowtran ./build/controls.py
+
+.PHONY: check
+check: notebooks
+	pytest --nbmake ./build/
 
 .PHONY: start-dev
-start-dev: stop-dev $(NOTEBOOKS)
-	watchmedo shell-command \
-		--patterns="*.py" \
-		--command='jupytext --from py:percent --to notebook $${watch_src_path}' \
-		& echo "$$!" >> watchmedo.pid
-	voila --debug . & echo "$$!" >> voila.pid
+start-dev: stop-dev notebooks
+	watchmedo shell-command ./src/ --patterns="*.py" --command='make notebooks' \
+	  & echo "$$!" >> watchmedo.pid
+	voila --debug ./build/ \
+	  & echo "$$!" >> voila.pid
 
 .PHONY: stop-dev
 stop-dev:
@@ -46,7 +64,15 @@ stop-dev:
 
 .PHONY: clean
 clean:
-	- rm *.ipynb
+	- rm -rf ./build/*
 
-%.ipynb: %.py
-	jupytext --from py:percent --to notebook $<
+.PHONY: clean-all
+clean-all: clean
+	make clean -C lowtran
+
+./build/controls.py: ./src/controls.py
+	cp $< $@
+
+./build/%.ipynb: ./src/%.py
+	mkdir -p ./build/
+	jupytext --from py:percent --to notebook --output $@ $<

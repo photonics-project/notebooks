@@ -22,8 +22,7 @@ jobs:
           make install-requirements
       - name: Build notebooks
         run: |
-          make -C ./lowtran/ data
-          make notebooks
+          make all
       - name: Run tests
         run: |
-          pytest --nbmake
+          make check

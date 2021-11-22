@@ -45,7 +45,7 @@ Please check out the following notebooks for a demonstration:
 |:--|:--|
 | `controls-gallery` | [![Binder](https://mybinder.org/badge_logo.svg)][controls-gallery] |
 
-[controls-gallery]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Fcontrols-gallery.ipynb
+[controls-gallery]: https://mybinder.org/v2/gh/photonics-project/notebooks/main?urlpath=voila%2Frender%2Fbuild%2Fcontrols-gallery.ipynb
 
 
 [voila]: https://github.com/voila-dashboards/voila

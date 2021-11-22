@@ -31,6 +31,17 @@ xnu = np.linspace(400, 50000, Npts)
 
 
 def main():
+    if len(sys.argv) == 2 and sys.argv[1] == 'prepare-TAPE5':
+        prepare_TAPE5()
+
+    if len(sys.argv) == 2 and sys.argv[1] == 'process-TAPE7':
+        process_TAPE7()
+
+    if len(sys.argv) == 2 and sys.argv[1] == 'plot':
+        plot()
+
+
+def prepare_TAPE5():
     with open('TAPE5', 'w') as f:
         for (idx, (MODEL, RANGE, IHAZE)) in enumerate(parameters):
             IRPT = 0 if idx == len(parameters)-1 else 1
@@ -46,15 +57,8 @@ def main():
                 file=f
             )
 
-    if len(sys.argv) == 2 and sys.argv[1] == 'post-process':
-        post_process()
 
-    if len(sys.argv) == 2 and sys.argv[1] == 'plot':
-        plot()
-
-
-
-def post_process():
+def process_TAPE7():
     xlambda = 1e4/xnu
     Tcoeff = np.zeros((len(parameters), Npts))
 

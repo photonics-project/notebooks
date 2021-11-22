@@ -1,9 +1,3 @@
 set -ex
 
-jupytext --from py:percent --to notebook blackbody.py
-jupytext --from py:percent --to notebook controls-gallery.py
-jupytext --from py:percent --to notebook mtf.py
-jupytext --from py:percent --to notebook psf.py
-jupytext --from py:percent --to notebook lowtran7.py
-
-cd lowtran && make data
+make all
