@@ -22,6 +22,7 @@ parameters = {
 
 output = widgets.Output()
 
+
 class Figure():
     def __init__(self):
         (fig, ax) = plt.subplots()
@@ -81,12 +82,13 @@ class Table():
         temperature = parameters['temperature']
         spectral_bands = parameters['spectral_bands']
 
-        Le = lambda x: blackbody_spectral_radiant_sterance(temperature, x)
-
         values = [
-            scipy.integrate.quad(lambda x: Le(x), lambda_min, lambda_max)[0]
+            scipy.integrate.quad(
+                lambda x: blackbody_spectral_radiant_sterance(temperature, x),
+                lambda_min, lambda_max
+            )[0]
             for (lambda_min, lambda_max) in spectral_bands
-            ]
+        ]
 
         table = v.DataTable(
             style_='width: 100%',
@@ -110,7 +112,7 @@ class Table():
 
 
 def blackbody_spectral_radiant_sterance(temperature, wavelength):
-    return colour.colorimetry.blackbody.blackbody_spectral_radiance(wavelength*1e-6,temperature)/1e6/1e4
+    return colour.colorimetry.blackbody.blackbody_spectral_radiance(wavelength*1e-6, temperature)/1e6/1e4
 
 
 plt.ioff()

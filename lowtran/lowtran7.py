@@ -18,7 +18,7 @@ models = np.array([1, 2, 3, 4, 5, 6])
 ranges = np.array([0.5, 1, 2, 5, 10, 20, 50])
 haze_types = np.array([0, 1, 2, 5])
 
-parameters = np.array(np.meshgrid(models, ranges, haze_types, indexing='ij')).reshape((3,-1)).T
+parameters = np.array(np.meshgrid(models, ranges, haze_types, indexing='ij')).reshape((3, -1)).T
 
 H1 = 0.0
 DV = 5
@@ -89,8 +89,8 @@ def plot():
     ax.set_xlabel('Wavelength (µm)')
     ax.set_ylabel('Transmission')
 
-    ax.set_xlim([30,5])
-    ax.set_ylim([0,1])
+    ax.set_xlim([30, 5])
+    ax.set_ylim([0, 1])
 
     fig.savefig('transmission.png')
 

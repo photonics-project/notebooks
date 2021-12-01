@@ -23,7 +23,7 @@ def optics_mtf(fnumber, xlambda, freq):
     freq_cutoff = 1/xlambda/fnumber
     xx = freq/freq_cutoff
 
-    return np.piecewise(xx, [xx<=1, xx>1], [lambda x: 2/np.pi*(np.arccos(x)-x*np.sqrt(1-x**2)), 0])
+    return np.piecewise(xx, [xx <= 1, xx > 1], [lambda x: 2/np.pi*(np.arccos(x)-x*np.sqrt(1-x**2)), 0])
 
 
 def pixel_mtf(pitch, freq):

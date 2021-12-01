@@ -23,7 +23,7 @@ parameters = {
 
 data = np.load(pathlib.Path().resolve() / 'lowtran7.npz')
 xlambda = data['xlambda'][::-1]
-Tcoeff = data['Tcoeff'][:,::-1]
+Tcoeff = data['Tcoeff'][:, ::-1]
 
 
 output = widgets.Output()

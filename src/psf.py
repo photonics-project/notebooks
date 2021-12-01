@@ -82,11 +82,13 @@ def update_optics():
     # print(parameters, optics_control_panel.fnumber)
     figure.update()
 
+
 # @output.capture()
 def update_wavelengths():
     parameters['wavelengths'] = wavelengths_control_panel.xlambda
     # print(parameters)
     figure.update()
+
 
 optics_control_panel.on_change(update_optics)
 wavelengths_control_panel.on_change(update_wavelengths)

@@ -231,14 +231,14 @@ class OpticsControlPanel():
     @property
     def widget(self):
         diameter = MyFloatSlider(
-            label=f'Diameter (cm)',
+            label='Diameter (cm)',
             value=self.diameter,
             min=0.1,
             max=10,
             step=0.1,
         )
         focal_length = MyFloatSlider(
-            label=f'Focal Length (cm)',
+            label='Focal Length (cm)',
             value=self.focal_length,
             min=0.1,
             max=10,
@@ -282,7 +282,7 @@ class DetectorFormatControlPanel():
     @property
     def widget(self):
         Hdim = v.TextField(
-            label=f'Horizontal Dimension (pixels)',
+            label='Horizontal Dimension (pixels)',
             type='number',
             value=self.Hdim,
             attributes={
@@ -291,7 +291,7 @@ class DetectorFormatControlPanel():
             }
         )
         Vdim = v.TextField(
-            label=f'Vertical Dimension (pixels)',
+            label='Vertical Dimension (pixels)',
             type='number',
             value=self.Vdim,
             attributes={
@@ -300,7 +300,7 @@ class DetectorFormatControlPanel():
             }
         )
         pitch = v.TextField(
-            label=f'Pixel Pitch (µm)',
+            label='Pixel Pitch (µm)',
             type='number',
             value=self.pitch,
             attributes={

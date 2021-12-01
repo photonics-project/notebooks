@@ -17,6 +17,8 @@ attrs==20.3.0
     #   -c requirements.txt
     #   jsonschema
     #   pytest
+autopep8==1.6.0
+    # via -r dev-requirements.in
 backcall==0.2.0
     # via
     #   -c requirements.txt
@@ -123,6 +125,8 @@ ptyprocess==0.7.0
     #   pexpect
 py==1.10.0
     # via pytest
+pycodestyle==2.8.0
+    # via autopep8
 pydantic==1.8.2
     # via nbmake
 pygments==2.7.4
@@ -164,6 +168,7 @@ six==1.15.0
 toml==0.10.2
     # via
     #   -c requirements.txt
+    #   autopep8
     #   pre-commit
     #   pytest
 tomli==1.2.1
