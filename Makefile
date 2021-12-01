@@ -1,4 +1,4 @@
-SOURCES := $(wildcard ./src/*.py)
+SOURCES := $(filter-out ./src/controls.py, $(wildcard ./src/*.py))
 NOTEBOOKS := $(patsubst ./src/%.py,./build/%.ipynb,$(SOURCES))
 
 
@@ -36,10 +36,9 @@ install-requirements:
 all: lowtran notebooks
 
 .PHONY: lowtran
-lowtran:
+lowtran: | ./build
 	make -C lowtran
-	mkdir -p ./build/lowtran/
-	cp ./lowtran/lowtran7.npz ./build/lowtran
+	cp ./lowtran/lowtran7.npz ./build/
 
 .PHONY: notebooks
 notebooks: $(NOTEBOOKS) lowtran ./build/controls.py
@@ -70,9 +69,11 @@ clean:
 clean-all: clean
 	make clean -C lowtran
 
-./build/controls.py: ./src/controls.py
+./build:
+	mkdir -p ./build
+
+./build/controls.py: ./src/controls.py | ./build
 	cp $< $@
 
-./build/%.ipynb: ./src/%.py
-	mkdir -p ./build/
+./build/%.ipynb: ./src/%.py | ./build
 	jupytext --from py:percent --to notebook --output $@ $<

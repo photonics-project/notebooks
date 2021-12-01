@@ -21,7 +21,7 @@ parameters = {
 }
 
 
-data = np.load(pathlib.Path().resolve() / 'lowtran/lowtran7.npz')
+data = np.load(pathlib.Path().resolve() / 'lowtran7.npz')
 xlambda = data['xlambda'][::-1]
 Tcoeff = data['Tcoeff'][:,::-1]
 
