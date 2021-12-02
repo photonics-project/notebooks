@@ -14,9 +14,8 @@ RUN pip install --no-cache-dir -r /notebooks/requirements/requirements.txt
 COPY ./ /notebooks/
 
 WORKDIR /notebooks/
-RUN make data --directory=./lowtran/
-RUN make notebooks
+RUN make all
 
 EXPOSE 8866
 
-ENTRYPOINT ["voila", "--port=8866", "--no-browser"]
+ENTRYPOINT ["voila", "--port=8866", "--no-browser", "./build"]
