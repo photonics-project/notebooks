@@ -3,7 +3,6 @@ ipympl
 ipyvuetify
 ipywidgets
 jinja2
-jupyterlab
 jupytext
 matplotlib
 numpy
