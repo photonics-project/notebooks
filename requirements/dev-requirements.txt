@@ -81,7 +81,7 @@ nbformat==5.1.2
     #   nbmake
 nbmake==0.8
     # via -r dev-requirements.in
-nest-asyncio==1.4.3
+nest-asyncio==1.5.4
     # via
     #   -c requirements.txt
     #   nbclient
