@@ -18,4 +18,4 @@ RUN make all
 
 EXPOSE 8866
 
-ENTRYPOINT ["voila", "--port=8866", "--no-browser", "./build"]
+ENTRYPOINT ["voila", "--Voila.ip=0.0.0.0", "--port=8866", "--no-browser", "./build"]
