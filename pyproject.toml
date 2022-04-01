@@ -1,4 +1,4 @@
 # added per https://github.com/dependabot/dependabot-core/issues/4062
 # this project does not actually use poetry
 [tool.poetry.dependencies]
-python = "~3.8"
+python = "~3.8.6"
