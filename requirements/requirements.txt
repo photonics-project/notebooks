@@ -20,12 +20,8 @@ backcall==0.2.0
     # via ipython
 bleach==3.3.0
     # via nbconvert
-certifi==2020.12.5
-    # via requests
 cffi==1.14.4
     # via argon2-cffi
-chardet==4.0.0
-    # via requests
 colour-science==0.3.16
     # via -r requirements.in
 cycler==0.10.0
@@ -36,10 +32,10 @@ defusedxml==0.6.0
     # via nbconvert
 entrypoints==0.3
     # via nbconvert
+fastjsonschema==2.15.3
+    # via nbformat
 idna==2.10
-    # via
-    #   anyio
-    #   requests
+    # via anyio
 imageio==2.9.0
     # via colour-science
 ipykernel==5.4.3
@@ -56,8 +52,6 @@ ipython==7.19.0
 ipython-genutils==0.2.0
     # via
     #   ipywidgets
-    #   jupyter-server
-    #   nbformat
     #   notebook
     #   traitlets
 ipyvue==1.5.0
@@ -93,7 +87,7 @@ jupyter-core==4.7.0
     #   nbconvert
     #   nbformat
     #   notebook
-jupyter-server==1.10.2
+jupyter-server==1.15.4
     # via voila
 jupyterlab-pygments==0.1.2
     # via nbconvert
@@ -126,7 +120,7 @@ nbconvert==6.0.7
     #   jupyter-server
     #   notebook
     #   voila
-nbformat==5.1.2
+nbformat==5.3.0
     # via
     #   ipywidgets
     #   jupyter-server
@@ -147,7 +141,9 @@ numpy==1.21.0
     #   matplotlib
     #   scipy
 packaging==20.8
-    # via bleach
+    # via
+    #   bleach
+    #   jupyter-server
 pandocfilters==1.4.3
     # via nbconvert
 parso==0.8.1
@@ -194,10 +190,6 @@ pyzmq==21.0.1
     #   jupyter-client
     #   jupyter-server
     #   notebook
-requests==2.25.1
-    # via requests-unixsocket
-requests-unixsocket==0.2.0
-    # via jupyter-server
 scipy==1.6.0
     # via
     #   -r requirements.in
@@ -243,10 +235,6 @@ traitlets==5.0.5
     #   nbconvert
     #   nbformat
     #   notebook
-urllib3==1.26.5
-    # via
-    #   requests
-    #   requests-unixsocket
 voila==0.3.0
     # via -r requirements.in
 wcwidth==0.2.5
