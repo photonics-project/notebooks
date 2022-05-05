@@ -45,7 +45,7 @@ ipykernel==5.4.3
     #   notebook
 ipympl==0.7.0
     # via -r requirements.in
-ipython==7.19.0
+ipython==7.33.0
     # via
     #   ipykernel
     #   ipywidgets
@@ -107,6 +107,8 @@ matplotlib==3.4.3
     # via
     #   -r requirements.in
     #   ipympl
+matplotlib-inline==0.1.3
+    # via ipython
 mdit-py-plugins==0.2.4
     # via jupytext
 mistune==0.8.4
@@ -231,6 +233,7 @@ traitlets==5.0.5
     #   jupyter-client
     #   jupyter-core
     #   jupyter-server
+    #   matplotlib-inline
     #   nbclient
     #   nbconvert
     #   nbformat

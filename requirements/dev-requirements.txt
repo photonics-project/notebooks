@@ -47,7 +47,7 @@ ipykernel==5.4.3
     # via
     #   -c requirements.txt
     #   nbmake
-ipython==7.19.0
+ipython==7.33.0
     # via
     #   -c requirements.txt
     #   ipykernel
@@ -73,6 +73,10 @@ jupyter-core==4.7.0
     #   -c requirements.txt
     #   jupyter-client
     #   nbformat
+matplotlib-inline==0.1.3
+    # via
+    #   -c requirements.txt
+    #   ipython
 nbclient==0.5.1
     # via
     #   -c requirements.txt
@@ -188,6 +192,7 @@ traitlets==5.0.5
     #   ipython
     #   jupyter-client
     #   jupyter-core
+    #   matplotlib-inline
     #   nbclient
     #   nbformat
 typing-extensions==3.10.0.2
