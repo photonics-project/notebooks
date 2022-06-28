@@ -114,7 +114,7 @@ pickleshare==0.7.5
     # via
     #   -c requirements.txt
     #   ipython
-pip-tools==6.4.0
+pip-tools==6.6.2
     # via -r dev-requirements.in
 pipdeptree==2.0.0
     # via -r dev-requirements.in
