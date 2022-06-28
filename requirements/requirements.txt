@@ -136,7 +136,7 @@ nest-asyncio==1.5.4
     #   notebook
 notebook==6.4.12
     # via widgetsnbextension
-numpy==1.21.0
+numpy==1.22.0
     # via
     #   -r requirements.in
     #   imageio
