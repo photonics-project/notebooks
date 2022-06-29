@@ -64,8 +64,7 @@ def process_TAPE7():
 
     with open('TAPE7', 'r') as f:
         for idx in range(len(parameters)):
-            f.read(560)
-            Tcoeff[idx] = np.loadtxt(f, max_rows=Npts, usecols=(1,))
+            Tcoeff[idx] = np.loadtxt(f, skiprows=11, max_rows=Npts, usecols=(1,))
             f.read(8)
 
     # for idx in range(len(data)):
