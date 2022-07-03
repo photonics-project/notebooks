@@ -1,17 +1,7 @@
 import sys
 
-import jinja2
 import matplotlib.pyplot as plt
 import numpy as np
-
-
-TAPE5_TEMPLATE = jinja2.Environment().from_string(r'''
-{{'%5d'|format(MODEL)}}    1    0    0{{'%40s'|format(' '*40)}}    0
-{{'%5d'|format(IHAZE)}}    0    0
-{{'%10.3f'|format(H1)}}{{'%20s'|format(' '*20)}}{{'%10.3f'|format(RANGE)}}
-   400.000 50000.000{{'%10.3f'|format(DV)}}
-{{'%5d'|format(IRPT)}}
-'''.strip())
 
 
 models = np.array([1, 2, 3, 4, 5, 6])
@@ -45,17 +35,13 @@ def prepare_TAPE5():
     with open('TAPE5', 'w') as f:
         for (idx, (MODEL, RANGE, IHAZE)) in enumerate(parameters):
             IRPT = 0 if idx == len(parameters)-1 else 1
-            print(
-                TAPE5_TEMPLATE.render(
-                    MODEL=MODEL,
-                    IHAZE=IHAZE,
-                    H1=H1,
-                    RANGE=RANGE,
-                    DV=DV,
-                    IRPT=IRPT,
-                ),
-                file=f
-            )
+            print((
+                f'{int(MODEL):5d}    1    0    0{" "*40}    0\n'
+                f'{int(IHAZE):5d}    0    0\n'
+                f'{H1:10.3f}{" "*20}{RANGE:10.3f}\n'
+                f'   400.000 50000.000{DV:10.3f}\n'
+                f'{IRPT:5d}'
+            ), file=f)
 
 
 def process_TAPE7():

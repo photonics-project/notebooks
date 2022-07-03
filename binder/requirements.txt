@@ -2,7 +2,6 @@ colour-science==0.3.16
 ipympl==0.7.0
 ipyvuetify==1.8.1
 ipywidgets==7.6.5
-jinja2==2.11.3
 jupytext==1.13.0
 matplotlib==3.4.3
 numpy==1.22.0
