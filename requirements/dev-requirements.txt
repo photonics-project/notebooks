@@ -33,6 +33,10 @@ decorator==4.4.2
     #   ipython
 distlib==0.3.1
     # via virtualenv
+entrypoints==0.3
+    # via
+    #   -c requirements.txt
+    #   jupyter-client
 fastjsonschema==2.15.3
     # via
     #   -c requirements.txt
@@ -51,10 +55,6 @@ ipython==7.33.0
     # via
     #   -c requirements.txt
     #   ipykernel
-ipython-genutils==0.2.0
-    # via
-    #   -c requirements.txt
-    #   traitlets
 jedi==0.18.0
     # via
     #   -c requirements.txt
@@ -63,12 +63,12 @@ jsonschema==3.2.0
     # via
     #   -c requirements.txt
     #   nbformat
-jupyter-client==6.1.11
+jupyter-client==7.3.4
     # via
     #   -c requirements.txt
     #   ipykernel
     #   nbclient
-jupyter-core==4.7.0
+jupyter-core==4.10.0
     # via
     #   -c requirements.txt
     #   jupyter-client
@@ -91,6 +91,7 @@ nbmake==0.8
 nest-asyncio==1.5.4
     # via
     #   -c requirements.txt
+    #   jupyter-client
     #   nbclient
 nodeenv==1.6.0
     # via pre-commit
@@ -153,7 +154,7 @@ pytest==6.2.5
     # via
     #   -r dev-requirements.in
     #   nbmake
-python-dateutil==2.8.1
+python-dateutil==2.8.2
     # via
     #   -c requirements.txt
     #   jupyter-client
@@ -162,7 +163,7 @@ pyyaml==5.4.1
     #   -c requirements.txt
     #   pre-commit
     #   watchdog
-pyzmq==21.0.1
+pyzmq==23.2.0
     # via
     #   -c requirements.txt
     #   jupyter-client
@@ -185,7 +186,7 @@ tornado==6.1
     #   -c requirements.txt
     #   ipykernel
     #   jupyter-client
-traitlets==5.0.5
+traitlets==5.3.0
     # via
     #   -c requirements.txt
     #   ipykernel
