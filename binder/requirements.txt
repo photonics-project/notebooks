@@ -6,4 +6,4 @@ jupytext==1.13.0
 matplotlib==3.4.3
 numpy==1.22.0
 scipy==1.6.0
-voila==0.3.0
+voila==0.3.5

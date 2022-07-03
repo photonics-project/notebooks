@@ -16,12 +16,20 @@ attrs==20.3.0
     # via
     #   jsonschema
     #   markdown-it-py
+babel==2.10.3
+    # via jupyterlab-server
 backcall==0.2.0
     # via ipython
+beautifulsoup4==4.11.1
+    # via nbconvert
 bleach==3.3.0
     # via nbconvert
+certifi==2022.6.15
+    # via requests
 cffi==1.14.4
     # via argon2-cffi
+charset-normalizer==2.1.0
+    # via requests
 colour-science==0.3.16
     # via -r requirements.in
 cycler==0.10.0
@@ -31,13 +39,19 @@ decorator==4.4.2
 defusedxml==0.6.0
     # via nbconvert
 entrypoints==0.3
-    # via nbconvert
+    # via
+    #   jupyter-client
+    #   nbconvert
 fastjsonschema==2.15.3
     # via nbformat
 idna==2.10
-    # via anyio
+    # via
+    #   anyio
+    #   requests
 imageio==2.9.0
     # via colour-science
+importlib-metadata==4.12.0
+    # via jupyterlab-server
 ipykernel==5.4.3
     # via
     #   ipympl
@@ -53,7 +67,6 @@ ipython-genutils==0.2.0
     # via
     #   ipywidgets
     #   notebook
-    #   traitlets
 ipyvue==1.5.0
     # via ipyvuetify
 ipyvuetify==1.8.1
@@ -65,31 +78,40 @@ ipywidgets==7.6.5
     #   ipyvue
 jedi==0.18.0
     # via ipython
-jinja2==2.11.3
+jinja2==3.1.2
     # via
     #   jupyter-server
+    #   jupyterlab-server
     #   nbconvert
     #   notebook
+json5==0.9.8
+    # via jupyterlab-server
 jsonschema==3.2.0
-    # via nbformat
-jupyter-client==6.1.11
+    # via
+    #   jupyterlab-server
+    #   nbformat
+jupyter-client==7.3.4
     # via
     #   ipykernel
     #   jupyter-server
     #   nbclient
     #   notebook
     #   voila
-jupyter-core==4.7.0
+jupyter-core==4.10.0
     # via
     #   jupyter-client
     #   jupyter-server
     #   nbconvert
     #   nbformat
     #   notebook
-jupyter-server==1.15.4
-    # via voila
+jupyter-server==1.18.0
+    # via
+    #   jupyterlab-server
+    #   voila
 jupyterlab-pygments==0.1.2
     # via nbconvert
+jupyterlab-server==2.14.0
+    # via voila
 jupyterlab-widgets==1.0.0
     # via ipywidgets
 jupytext==1.13.0
@@ -100,8 +122,10 @@ markdown-it-py==1.1.0
     # via
     #   jupytext
     #   mdit-py-plugins
-markupsafe==1.1.1
-    # via jinja2
+markupsafe==2.1.1
+    # via
+    #   jinja2
+    #   nbconvert
 matplotlib==3.4.3
     # via
     #   -r requirements.in
@@ -116,7 +140,7 @@ nbclient==0.5.1
     # via
     #   nbconvert
     #   voila
-nbconvert==6.0.7
+nbconvert==6.5.0
     # via
     #   jupyter-server
     #   notebook
@@ -131,6 +155,7 @@ nbformat==5.3.0
     #   notebook
 nest-asyncio==1.5.4
     # via
+    #   jupyter-client
     #   nbclient
     #   notebook
 notebook==6.4.12
@@ -145,6 +170,8 @@ packaging==20.8
     # via
     #   bleach
     #   jupyter-server
+    #   jupyterlab-server
+    #   nbconvert
 pandocfilters==1.4.3
     # via nbconvert
 parso==0.8.1
@@ -180,17 +207,21 @@ pyparsing==2.4.7
     #   packaging
 pyrsistent==0.17.3
     # via jsonschema
-python-dateutil==2.8.1
+python-dateutil==2.8.2
     # via
     #   jupyter-client
     #   matplotlib
+pytz==2022.1
+    # via babel
 pyyaml==5.4.1
     # via jupytext
-pyzmq==21.0.1
+pyzmq==23.2.0
     # via
     #   jupyter-client
     #   jupyter-server
     #   notebook
+requests==2.28.1
+    # via jupyterlab-server
 scipy==1.6.0
     # via
     #   -r requirements.in
@@ -209,11 +240,13 @@ six==1.15.0
     #   python-dateutil
 sniffio==1.2.0
     # via anyio
+soupsieve==2.3.2.post1
+    # via beautifulsoup4
 terminado==0.9.2
     # via
     #   jupyter-server
     #   notebook
-testpath==0.4.4
+tinycss2==1.1.1
     # via nbconvert
 toml==0.10.2
     # via jupytext
@@ -224,7 +257,7 @@ tornado==6.1
     #   jupyter-server
     #   notebook
     #   terminado
-traitlets==5.0.5
+traitlets==5.3.0
     # via
     #   ipykernel
     #   ipython
@@ -237,18 +270,25 @@ traitlets==5.0.5
     #   nbconvert
     #   nbformat
     #   notebook
-voila==0.3.0
+    #   voila
+urllib3==1.26.9
+    # via requests
+voila==0.3.5
     # via -r requirements.in
 wcwidth==0.2.5
     # via prompt-toolkit
 webencodings==0.5.1
-    # via bleach
+    # via
+    #   bleach
+    #   tinycss2
 websocket-client==1.1.1
     # via jupyter-server
 websockets==10.1
     # via voila
 widgetsnbextension==3.5.1
     # via ipywidgets
+zipp==3.8.0
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
