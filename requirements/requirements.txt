@@ -24,7 +24,7 @@ beautifulsoup4==4.11.1
     # via nbconvert
 bleach==3.3.0
     # via nbconvert
-certifi==2022.6.15
+certifi==2022.12.7
     # via requests
 cffi==1.14.4
     # via argon2-cffi
