@@ -206,7 +206,7 @@ wcwidth==0.2.5
     # via
     #   -c requirements.txt
     #   prompt-toolkit
-wheel==0.36.2
+wheel==0.38.1
     # via pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:
