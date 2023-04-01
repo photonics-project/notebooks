@@ -10,7 +10,10 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
-from controls import SpectralBandsControlPanel
+from controls import (
+    MyFloatRangeSlider,
+    SpectralBandsControlPanel,
+)
 
 
 parameters = {
@@ -18,6 +21,7 @@ parameters = {
     'range': 1,
     'haze': 1,
     'spectral_bands': [(3.0, 5.0), (8.0, 12.0)],
+    'figure_xlim': [0.2, 25],
 }
 
 
@@ -52,7 +56,7 @@ class Figure():
         self.ax.set_xlabel('Wavelength (µm)')
         self.ax.set_ylabel('Transmission')
 
-        self.ax.set_xlim([0.2, 25])
+        self.ax.set_xlim(parameters['figure_xlim'])
         self.ax.set_ylim([0, 1])
 
         self.ax.grid(True)
@@ -200,6 +204,14 @@ spectral_bands_control_panel = SpectralBandsControlPanel(
     lambda_max=np.max(xlambda),
     )
 
+figure_xlim = MyFloatRangeSlider(
+    label='xlim',
+    value=parameters['figure_xlim'],
+    min=0.2,
+    max=25,
+    step=0.1,
+)
+
 
 def update():
     figure.update()
@@ -228,10 +240,16 @@ def update_wavelengths():
     update()
 
 
+def update_xlim(change):
+    parameters.update({'figure_xlim': change.new})
+    figure.update()
+
+
 model.on_event('change', update_model)
 range.on_event('change', update_range)
 haze.on_event('change', update_haze)
 spectral_bands_control_panel.on_change(update_wavelengths)
+figure_xlim.observe(update_xlim, names='value')
 
 
 v.Container(fluid=True, children=[
@@ -279,6 +297,7 @@ v.Container(fluid=True, children=[
                     v.CardTitle(children=['Figure']),
                     v.CardText(children=[
                         figure.canvas,
+                        figure_xlim,
                     ]),
             ]),
         ]),

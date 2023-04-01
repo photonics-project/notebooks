@@ -10,6 +10,7 @@ import scipy.integrate
 
 from controls import (
     MyFloatSlider,
+    MyFloatRangeSlider,
     SpectralBandsControlPanel,
 )
 
@@ -17,6 +18,7 @@ from controls import (
 parameters = {
     'temperature': 300,
     'spectral_bands': [(3.0, 5.0), (8.0, 12.0)],
+    'figure_xlim': [0.2, 30],
 }
 
 
@@ -47,6 +49,8 @@ class Figure():
 
         self.ax.set_xlabel('Wavelength (µm)')
         self.ax.set_ylabel(R'Spectral Radiant Sterance (W cm$^{-2}$ µm$^{-1}$ sr$^{-1}$)')
+
+        self.ax.set_xlim(parameters['figure_xlim'])
 
         self.ax.grid(True)
 
@@ -131,6 +135,14 @@ temperature = MyFloatSlider(
 
 spectral_bands_control_panel = SpectralBandsControlPanel(spectral_bands=parameters['spectral_bands'])
 
+figure_xlim = MyFloatRangeSlider(
+    label='xlim',
+    value=parameters['figure_xlim'],
+    min=0.2,
+    max=30,
+    step=0.1,
+)
+
 
 def update_temperature(change):
     parameters.update({'temperature': change.new})
@@ -144,8 +156,14 @@ def update_wavelengths():
     table.update()
 
 
+def update_xlim(change):
+    parameters.update({'figure_xlim': change.new})
+    figure.update()
+
+
 temperature.observe(update_temperature, names='value')
 spectral_bands_control_panel.on_change(update_wavelengths)
+figure_xlim.observe(update_xlim, names='value')
 
 
 v.Container(fluid=True, children=[
@@ -188,6 +206,7 @@ v.Container(fluid=True, children=[
                     v.CardTitle(children=['Figure']),
                     v.CardText(children=[
                         figure.canvas,
+                        figure_xlim,
                     ]),
             ]),
         ]),
