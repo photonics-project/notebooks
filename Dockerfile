@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r /notebooks/requirements/requirements.txt
 COPY ./ /notebooks/
 
 WORKDIR /notebooks/
-RUN make all
+RUN make build
 
 EXPOSE 8866
 

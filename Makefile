@@ -35,21 +35,26 @@ install-requirements:
 .PHONY: all
 all: lowtran notebooks
 
-.PHONY: lowtran
-lowtran: | ./build
-	make -C lowtran
+.PHONY: build
+build: all | ./build/
 	cp ./lowtran/lowtran7.npz ./build/
+	cp ./src/controls.py ./build/
+	cp -r ./src/templates ./build/
+
+.PHONY: lowtran
+lowtran:
+	make -C lowtran
 
 .PHONY: notebooks
-notebooks: $(NOTEBOOKS) lowtran ./build/controls.py
+notebooks: $(NOTEBOOKS)
 
 .PHONY: check
-check: notebooks
+check: build
 	pytest --nbmake ./build/
 
 .PHONY: start-dev
-start-dev: stop-dev notebooks
-	watchmedo shell-command ./src/ --patterns="*.py" --command='make notebooks' \
+start-dev: stop-dev build
+	watchmedo shell-command ./src/ --recursive --patterns="*.py;*.vue" --command='make build' \
 	  & echo "$$!" >> watchmedo.pid
 	voila --debug ./build/ \
 	  & echo "$$!" >> voila.pid
@@ -63,17 +68,14 @@ stop-dev:
 
 .PHONY: clean
 clean:
-	- rm -rf ./build/*
+	- rm -rf ./build
 
 .PHONY: clean-all
 clean-all: clean
 	make clean -C lowtran
 
-./build:
+./build/:
 	mkdir -p ./build
 
-./build/controls.py: ./src/controls.py | ./build
-	cp $< $@
-
-./build/%.ipynb: ./src/%.py | ./build
+./build/%.ipynb: ./src/%.py | ./build/
 	jupytext --from py:percent --to notebook --output $@ $<

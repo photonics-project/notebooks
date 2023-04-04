@@ -7,78 +7,23 @@ import traitlets
 
 
 class MyFloatSlider(v.VuetifyTemplate):
+    template_file = './templates/float-slider.vue'
+
     label = traitlets.Unicode().tag(sync=True)
     value = traitlets.Float(default_value=0).tag(sync=True)
     min = traitlets.Float(default_value=0).tag(sync=True)
     max = traitlets.Float(default_value=1).tag(sync=True)
     step = traitlets.Float(default_value=0.1).tag(sync=True)
 
-    @traitlets.default('template')
-    def _template(self):
-        return '''
-          <v-slider
-            v-model="value"
-            :label="label"
-            :min="min" :max="max" :step="step"
-            hide-details
-            style="width: 400px"
-            class="align-center"
-          >
-            <template v-slot:append>
-              <v-text-field
-                v-model="value"
-                type="number"
-                :min="min" :step="step"
-                dense hide-details outlined single-line
-                class="mt-0 pt-0"
-                style="width: 5em"
-                @change="$set(value, $event)"
-              ></v-text-field>
-            </template>
-          </v-slider>
-        '''
-
 
 class MyFloatRangeSlider(v.VuetifyTemplate):
+    template_file = './templates/float-range-slider.vue'
+
     label = traitlets.Unicode().tag(sync=True)
     value = traitlets.List(traitlets.Float(), default_value=[0, 1]).tag(sync=True)
     min = traitlets.Float(default_value=0).tag(sync=True)
     max = traitlets.Float(default_value=1).tag(sync=True)
     step = traitlets.Float(default_value=0.1).tag(sync=True)
-
-    @traitlets.default('template')
-    def _template(self):
-        return '''
-          <v-range-slider
-            v-model="value"
-            :label="label"
-            :min="min" :max="max" :step="step"
-            hide-details
-            style="width: 400px"
-            class="align-center"
-          >
-            <template v-slot:append>
-              <v-text-field
-                type="number"
-                :value="value[0]"
-                :min="min" :step="step"
-                dense hide-details outlined single-line
-                class="mt-0 pt-0"
-                style="width: 5em"
-                @change="$set(value, 0, $event)"
-              ></v-text-field>
-              <v-text-field
-                type="number"
-                :value="value[1]"
-                :max="max" :step="step"
-                dense hide-details outlined single-line
-                class="mt-0 pt-0"
-                style="width: 5em"
-                @change="$set(value, 1, $event)"
-              ></v-text-field>
-            </template>
-          </v-range-slider>
-        '''
 
 
 class WavelengthsControlPanel():
