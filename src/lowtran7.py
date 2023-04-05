@@ -141,8 +141,8 @@ class Downloader():
         data_idx = np.ravel_multi_index((model_idx, range_idx, haze_idx), (6, 7, 4))
 
         with io.StringIO() as data_table:
-            print('Wavelength (um),Transmission', file=data_table)
-            np.savetxt(data_table, np.column_stack((xlambda, Tcoeff[data_idx])), fmt=['%.4f', '%.6f'], delimiter=',')
+            print('Wavelength (um),Transmission', end='\r\n', file=data_table)
+            np.savetxt(data_table, np.column_stack((xlambda, Tcoeff[data_idx])), fmt=['%.4f', '%.6f'], delimiter=',', newline='\r\n')
             payload = base64.b64encode(data_table.getvalue().encode()).decode()
 
         self.widget.children = [
@@ -163,7 +163,7 @@ downloader = Downloader()
 model = v.Select(
     label='Model',
     items=[
-        {'text': 'Tropical Atmosphere', 'value': 1},
+        {'text': 'Tropical', 'value': 1},
         {'text': 'Midlatitude Summer', 'value': 2},
         {'text': 'Midlatitude Winter', 'value': 3},
         {'text': 'Subarctic Summer', 'value': 4},
