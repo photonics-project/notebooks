@@ -9,7 +9,7 @@
     <v-text-field
       v-model="value"
       type="number"
-      :min="min" :step="step"
+      :min="min" :max="max" :step="step"
       dense hide-details outlined single-line
       class="mt-0 pt-0"
       style="width: 5em"
