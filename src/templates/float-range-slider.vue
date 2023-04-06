@@ -3,7 +3,6 @@
   :label="label"
   :min="min" :max="max" :step="step"
   hide-details
-  style="width: 400px"
   class="align-center"
 >
   <template v-slot:append>
