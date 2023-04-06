@@ -15,6 +15,11 @@ class MyFloatSlider(v.VuetifyTemplate):
     max = traitlets.Float(default_value=1).tag(sync=True)
     step = traitlets.Float(default_value=0.1).tag(sync=True)
 
+    def __str__(self):
+        return str({
+            'value': self.value,
+        })
+
 
 class MyFloatRangeSlider(v.VuetifyTemplate):
     template_file = './templates/float-range-slider.vue'
@@ -24,6 +29,11 @@ class MyFloatRangeSlider(v.VuetifyTemplate):
     min = traitlets.Float(default_value=0).tag(sync=True)
     max = traitlets.Float(default_value=1).tag(sync=True)
     step = traitlets.Float(default_value=0.1).tag(sync=True)
+
+    def __str__(self):
+        return str({
+            'value': self.value,
+        })
 
 
 class WavelengthsControlPanel():

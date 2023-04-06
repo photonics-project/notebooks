@@ -25,6 +25,8 @@ spectral_bands_control_panel = SpectralBandsControlPanel(spectral_bands=[(3, 5),
 
 
 output = {
+    'my_float_slider': v.Html(tag='span', children=[str(my_float_slider)]),
+    'my_float_range_slider': v.Html(tag='span', children=[str(my_float_range_slider)]),
     'optics_control_panel': v.Html(tag='span', children=[str(optics_control_panel)]),
     'detector_format_control_panel': v.Html(tag='span', children=[str(detector_format_control_panel)]),
     'wavelengths_control_panel': v.Html(tag='span', children=[str(wavelengths_control_panel)]),
@@ -32,13 +34,17 @@ output = {
 }
 
 
-def update():
+def update(*args, **kwargs):
+    output['my_float_slider'].children = str(my_float_slider),
+    output['my_float_range_slider'].children = str(my_float_range_slider),
     output['optics_control_panel'].children = str(optics_control_panel),
     output['detector_format_control_panel'].children = str(detector_format_control_panel),
     output['wavelengths_control_panel'].children = str(wavelengths_control_panel),
     output['spectral_bands_control_panel'].children = str(spectral_bands_control_panel),
 
 
+my_float_slider.observe(update, names='value')
+my_float_range_slider.observe(update, names='value')
 optics_control_panel.on_change(update)
 detector_format_control_panel.on_change(update)
 wavelengths_control_panel.on_change(update)
@@ -62,11 +68,13 @@ v.Container(fluid=True, children=[
         v.Col(cols=12, md=6, children=[
             cardify('Float Slider', [
                 my_float_slider,
+                output['my_float_slider'],
             ])
         ]),
         v.Col(cols=12, md=6, children=[
             cardify('Float Range Slider', [
                 my_float_range_slider,
+                output['my_float_range_slider'],
             ])
         ]),
         v.Col(cols=12, md=6, children=[
