@@ -48,7 +48,6 @@ spectral_bands_control_panel.on_change(update)
 def cardify(title, widgets):
     return (
         v.Card(
-            class_='ma-4',
             outlined=True,
             children=[
                 v.CardTitle(children=[title]),
@@ -58,31 +57,41 @@ def cardify(title, widgets):
     )
 
 
-v.Html(
-    tag='div',
-    class_='d-flex flex-row flex-wrap justify-start',
-    children=[
-        cardify('Float Slider', [
-            my_float_slider,
+v.Container(fluid=True, children=[
+    v.Row(children=[
+        v.Col(cols=12, md=6, children=[
+            cardify('Float Slider', [
+                my_float_slider,
+            ])
         ]),
-        cardify('Float Range Slider', [
-            my_float_range_slider,
+        v.Col(cols=12, md=6, children=[
+            cardify('Float Range Slider', [
+                my_float_range_slider,
+            ])
         ]),
-        cardify('Optics Control Panel', [
-            optics_control_panel.widget,
-            output['optics_control_panel'],
+        v.Col(cols=12, md=6, children=[
+            cardify('Wavelengths Control Panel', [
+                wavelengths_control_panel.widget,
+                output['wavelengths_control_panel'],
+            ])
         ]),
-        cardify('Detector Format Control Panel', [
-            detector_format_control_panel.widget,
-            output['detector_format_control_panel'],
+        v.Col(cols=12, md=6, children=[
+            cardify('Spectral Bands Control Panel', [
+                spectral_bands_control_panel.widget,
+                output['spectral_bands_control_panel'],
+            ])
         ]),
-        cardify('Wavelengths Control Panel', [
-            wavelengths_control_panel.widget,
-            output['wavelengths_control_panel'],
+        v.Col(cols=12, md=6, children=[
+            cardify('Optics Control Panel', [
+                optics_control_panel.widget,
+                output['optics_control_panel'],
+            ])
         ]),
-        cardify('Spectral Bands Control Panel', [
-            spectral_bands_control_panel.widget,
-            output['spectral_bands_control_panel'],
+        v.Col(cols=12, md=6, children=[
+            cardify('Detector Format Control Panel', [
+                detector_format_control_panel.widget,
+                output['detector_format_control_panel'],
+            ])
         ]),
-    ]
-)
+    ])
+])
