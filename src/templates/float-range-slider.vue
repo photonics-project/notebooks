@@ -24,5 +24,32 @@
       style="width: 5em"
       @change="$set(value, 1, $event)"
     ></v-text-field>
+    <v-tooltip right v-if="resettable">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          fab
+          small
+          elevation="0"
+          v-bind="attrs"
+          v-on="on"
+          @click="reset"
+        >
+          <v-icon>
+            mdi-arrow-expand-horizontal
+          </v-icon>
+        </v-btn>
+      </template>
+      <span>reset</span>
+    </v-tooltip>
   </template>
 </v-range-slider>
+
+<script>
+module.exports = {
+  methods: {
+    reset() {
+      this.value = [this.min, this.max];
+    },
+  },
+};
+</script>

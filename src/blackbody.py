@@ -141,6 +141,7 @@ figure_xlim = MyFloatRangeSlider(
     min=0.2,
     max=30,
     step=0.1,
+    resettable=True,
 )
 
 

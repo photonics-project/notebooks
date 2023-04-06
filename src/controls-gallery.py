@@ -17,7 +17,7 @@ from controls import (
 
 
 my_float_slider = MyFloatSlider(label='Wavelength #1', min=0, max=25, value=3)
-my_float_range_slider = MyFloatRangeSlider(label='Band #1', min=0, max=25, value=[3, 5])
+my_float_range_slider = MyFloatRangeSlider(label='Band #1', min=0, max=25, value=[3, 5], resettable=True)
 optics_control_panel = OpticsControlPanel(diameter=1.0, focal_length=2.0)
 detector_format_control_panel = DetectorFormatControlPanel(Hdim=1280, Vdim=720, pitch=12)
 wavelengths_control_panel = WavelengthsControlPanel(xlambda=[4, 10])

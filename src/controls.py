@@ -29,6 +29,7 @@ class MyFloatRangeSlider(v.VuetifyTemplate):
     min = traitlets.Float(default_value=0).tag(sync=True)
     max = traitlets.Float(default_value=1).tag(sync=True)
     step = traitlets.Float(default_value=0.1).tag(sync=True)
+    resettable = traitlets.Bool(default_value=False).tag(sync=True)
 
     def __str__(self):
         return str({
