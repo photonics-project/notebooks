@@ -50,7 +50,7 @@ class Figure():
 
         self.ax.grid(True)
 
-        self.fig.canvas.draw()
+        self.fig.canvas.draw_idle()
 
     def plot(self):
         Da = parameters['diameter']

@@ -78,7 +78,7 @@ class Figure():
         self.ax1.grid(True)
         self.ax2.grid(True)
 
-        self.fig.canvas.draw()
+        self.fig.canvas.draw_idle()
 
 
 class Table():

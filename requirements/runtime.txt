@@ -1,3 +1,0 @@
-# added per https://github.com/dependabot/dependabot-core/issues/4062
-# see also https://github.com/dependabot/dependabot-core/issues/4901
-python-3.8.6

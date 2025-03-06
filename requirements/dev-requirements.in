@@ -1,8 +1,0 @@
--c requirements.txt
-autopep8
-nbmake
-pip-tools
-pipdeptree
-pre-commit
-pytest
-watchdog[watchmedo]

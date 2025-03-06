@@ -1,3 +1,4 @@
+<template>
 <v-slider
   v-model="value"
   :label="label"
@@ -17,3 +18,4 @@
     ></v-text-field>
   </template>
 </v-slider>
+</template>
