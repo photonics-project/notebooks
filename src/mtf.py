@@ -73,7 +73,7 @@ class Figure():
         self.ax1.legend()
         self.ax3.legend()
 
-        self.fig.canvas.draw()
+        self.fig.canvas.draw_idle()
 
     def plot_optics_mtf(self):
         fnumber = parameters['fnumber']
@@ -87,6 +87,8 @@ class Figure():
             mtf = optics_mtf(fnumber, xx, freq)
             self.ax1.plot(freq*1000, mtf, label=f'$\lambda_{idx}$')
 
+        self.ax1.set_yticks(np.linspace(0, 1, 6))
+
     def plot_pixel_mtf(self):
         pixel_pitch = parameters['pixel_pitch']
 
@@ -97,6 +99,8 @@ class Figure():
         self.ax2.clear()
         self.ax2.set_title('Pixel MTF')
         self.ax2.plot(freq*1000, mtf)
+
+        self.ax2.set_yticks(np.linspace(0, 1, 6))
 
     def plot_composite_mtf(self):
         fnumber = parameters['fnumber']
@@ -109,6 +113,8 @@ class Figure():
             freq = 2/pixel_pitch*np.linspace(0, 1, 101)
             mtf = optics_mtf(fnumber, xx, freq) * pixel_mtf(pixel_pitch, freq)
             self.ax3.plot(freq*1000, mtf, label=f'$\lambda_{idx}$')
+
+        self.ax3.set_yticks(np.linspace(0, 1, 6))
 
 
 plt.ioff()

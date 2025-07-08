@@ -1,3 +1,4 @@
+<template>
 <v-range-slider
   v-model="value"
   :label="label"
@@ -43,6 +44,7 @@
     </v-tooltip>
   </template>
 </v-range-slider>
+</template>
 
 <script>
 module.exports = {

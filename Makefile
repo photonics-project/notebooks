@@ -13,8 +13,6 @@ help:
 	@echo "Below are the available \`make\` targets for the Photoics Project Notebooks package."
 	@echo
 	@echo "Build:"
-	@echo "  install-requirements"
-	@echo "    install the requirements in the current Python environment"
 	@echo "  lowtran"
 	@echo "    compile and run lowtran to construct the data tables"
 	@echo "  notebooks"
@@ -27,10 +25,6 @@ help:
 	@echo "  stop-dev"
 	@echo "    terminate the background processes initiated by \`start-dev\`"
 	@echo
-
-.PHONY: install-requirements
-install-requirements:
-	$(MAKE) -C ./requirements/ install
 
 .PHONY: all
 all: lowtran notebooks

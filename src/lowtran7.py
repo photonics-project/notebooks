@@ -61,7 +61,7 @@ class Figure():
 
         self.ax.grid(True)
 
-        self.fig.canvas.draw()
+        self.fig.canvas.draw_idle()
 
     def plot(self):
         model_idx = parameters['model'] - 1
@@ -100,7 +100,7 @@ class Table():
         spectral_bands = parameters['spectral_bands']
 
         values = [
-            np.trapz(
+            np.trapezoid(
                 Tcoeff[data_idx][np.logical_and(xlambda > lambda_min, xlambda < lambda_max)],
                 xlambda[np.logical_and(xlambda > lambda_min, xlambda < lambda_max)]
                 ) / (lambda_max-lambda_min)

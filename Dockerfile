@@ -1,20 +1,22 @@
-FROM python:3.8-slim
+FROM debian:11-slim
 
 RUN apt update && apt install -y \
+    curl \
     gfortran \
     make
 
-ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-COPY ./requirements/ /notebooks/requirements/
-RUN pip install --no-cache-dir -r /notebooks/requirements/requirements.txt
+RUN curl -fsSL https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin/:$PATH"
 
 COPY ./ /notebooks/
-
 WORKDIR /notebooks/
-RUN make build
+
+RUN uv venv
+ENV VIRTUAL_ENV="./.venv"
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN uv sync
+
+RUN uv run make build
 
 EXPOSE 8866
 

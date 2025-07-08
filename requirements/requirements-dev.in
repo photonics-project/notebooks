@@ -1,8 +1,7 @@
--c requirements.txt
+-r requirements.in
 autopep8
+flake8
 nbmake
-pip-tools
-pipdeptree
 pre-commit
 pytest
 watchdog[watchmedo]

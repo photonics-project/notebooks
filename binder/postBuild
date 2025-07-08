@@ -1,3 +1,5 @@
 set -ex
 
+pip install -r ./requirements/requirements.txt
+
 make build
