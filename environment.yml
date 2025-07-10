@@ -1,0 +1,13 @@
+name: photonics-project-notebooks
+channels:
+  - https://repo.prefix.dev/emscripten-forge-dev
+  - https://repo.prefix.dev/conda-forge
+dependencies:
+  - xeus-python=0.17.4
+  - colour-science=0.4.6
+  - ipympl=0.9.7
+  - ipyvuetify=1.11.3
+  - ipywidgets=8.1.7
+  - matplotlib=3.10.3
+  - numpy=2.2.6
+  - scipy=1.14.1

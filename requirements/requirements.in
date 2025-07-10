@@ -3,7 +3,8 @@ ipympl
 ipyvuetify
 ipywidgets
 jupytext
-matplotlib
+matplotlib==3.10.3
 numpy
-scipy
+scipy==1.14.1
+voici
 voila

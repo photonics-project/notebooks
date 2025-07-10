@@ -1,3 +1,12 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     name: python3
+#     display_name: Python 3
+#     language: python
+# ---
+
+
 # %% [markdown]
 # #Controls
 # Below is a gallery of control panels to assist with notebook development for the Photonics Project.
