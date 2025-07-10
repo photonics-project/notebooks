@@ -35,6 +35,10 @@ build: all | ./build/
 	cp ./src/controls.py ./build/
 	cp -r ./src/templates ./build/
 
+.PHONY: site
+site: build
+	voici build --contents ./build/ --output-dir ./site
+
 .PHONY: lowtran
 lowtran:
 	make -C lowtran

@@ -1,3 +1,12 @@
+# ---
+# jupyter:
+#   kernelspec:
+#     name: python3
+#     display_name: Python 3
+#     language: python
+# ---
+
+
 # %%
 # %matplotlib widget
 import colour
