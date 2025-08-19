@@ -1,0 +1,43 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2025-08-19T06:12:41.507601Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2025-08-19T06:12:39.340616Z",
+      "mimetype": null,
+      "name": "float-range-slider.vue",
+      "path": "templates/float-range-slider.vue",
+      "size": 1243,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2025-08-19T06:12:41.508600Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2025-08-19T06:12:39.340616Z",
+      "mimetype": null,
+      "name": "float-slider.vue",
+      "path": "templates/float-slider.vue",
+      "size": 451,
+      "type": "file",
+      "writable": true
+    }
+  ],
+  "created": "2025-08-19T06:12:41.508600Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2025-08-19T06:12:41.508600Z",
+  "mimetype": null,
+  "name": "templates",
+  "path": "templates",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}
