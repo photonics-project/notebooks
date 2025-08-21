@@ -1,4 +1,6 @@
 -r requirements.in
+-c requirements.txt
+
 autopep8
 flake8
 nbmake

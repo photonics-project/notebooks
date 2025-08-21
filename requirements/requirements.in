@@ -5,6 +5,7 @@ ipywidgets
 jupytext
 matplotlib==3.10.3
 numpy
+pandas
 scipy==1.14.1
 voici
 voila
