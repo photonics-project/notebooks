@@ -16,7 +16,7 @@ babel==2.17.0
     # via jupyterlab-server
 beautifulsoup4==4.13.4
     # via nbconvert
-bleach==6.2.0
+bleach[css]==6.2.0
     # via nbconvert
 certifi==2025.6.15
     # via requests
@@ -50,7 +50,7 @@ executing==2.2.0
     # via stack-data
 fastjsonschema==2.21.1
     # via nbformat
-fonttools==4.58.5
+fonttools==4.61.0
     # via matplotlib
 fqdn==1.5.1
     # via jsonschema
@@ -93,7 +93,7 @@ json5==0.12.0
     # via jupyterlab-server
 jsonpointer==3.0.0
     # via jsonschema
-jsonschema==4.24.0
+jsonschema[format-nongpl]==4.24.0
     # via
     #   jupyter-events
     #   jupyterlab-server
