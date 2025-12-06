@@ -18,7 +18,7 @@ babel==2.17.0
     # via jupyterlab-server
 beautifulsoup4==4.13.4
     # via nbconvert
-bleach==6.2.0
+bleach[css]==6.2.0
     # via nbconvert
 certifi==2025.6.15
     # via requests
@@ -114,7 +114,7 @@ json5==0.12.0
     # via jupyterlab-server
 jsonpointer==3.0.0
     # via jsonschema
-jsonschema==4.24.0
+jsonschema[format-nongpl]==4.24.0
     # via
     #   jupyter-events
     #   jupyterlab-server
@@ -387,7 +387,7 @@ typing-extensions==4.14.1
     #   typer
 uri-template==1.3.0
     # via jsonschema
-urllib3==2.5.0
+urllib3==2.6.0
     # via requests
 virtualenv==20.31.2
     # via pre-commit
@@ -399,7 +399,7 @@ voila==0.5.8
     # via
     #   -r requirements.in
     #   voici-core
-watchdog==6.0.0
+watchdog[watchmedo]==6.0.0
     # via -r requirements-dev.in
 wcwidth==0.2.13
     # via prompt-toolkit
