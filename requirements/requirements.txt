@@ -16,7 +16,7 @@ babel==2.17.0
     # via jupyterlab-server
 beautifulsoup4==4.13.4
     # via nbconvert
-bleach==6.2.0
+bleach[css]==6.2.0
     # via nbconvert
 certifi==2025.6.15
     # via requests
@@ -93,7 +93,7 @@ json5==0.12.0
     # via jupyterlab-server
 jsonpointer==3.0.0
     # via jsonschema
-jsonschema==4.24.0
+jsonschema[format-nongpl]==4.24.0
     # via
     #   jupyter-events
     #   jupyterlab-server
@@ -163,7 +163,7 @@ nbclient==0.10.2
     # via
     #   nbconvert
     #   voila
-nbconvert==7.16.6
+nbconvert==7.17.0
     # via
     #   jupyter-server
     #   voila
